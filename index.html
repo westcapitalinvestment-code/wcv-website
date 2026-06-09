@@ -39,9 +39,9 @@ nav{
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px}
 .hero-accent{position:absolute;left:4rem;top:15%;bottom:15%;width:2px;background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
 .hero-content{position:relative;z-index:2;max-width:900px;text-align:center}
-.hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+.hero-eyebrow{font-size:.9rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;display:flex;align-items:center;justify-content:center;gap:1rem}
 .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;height:1px;width:40px;background:var(--gold);opacity:.5}
-.hero-title{font-family:var(--fd);font-size:clamp(3rem,7vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.8rem;color:var(--white)}
+.hero-title{font-family:var(--fd);font-size:clamp(3.5rem,8vw,7rem);font-weight:700;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.8rem;color:var(--white)}
 .hero-title .gold{color:var(--gold)}
 .hero-title .thin{font-weight:400;font-style:italic}
 .hero-sub{font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.65);max-width:600px;margin:0 auto 3rem;line-height:1.7}
@@ -169,6 +169,7 @@ footer{background:var(--navy2);padding:2rem 4rem;display:flex;align-items:center
 <nav>
   <div class="nav-logo">W<span>C</span>V</div>
   <ul class="nav-links">
+    <li><a href="#inicio">Inicio</a></li>
     <li><a href="#para-quien">¿Para quién?</a></li>
     <li><a href="#sistema">El Sistema</a></li>
     <li><a href="#diferenciadores">Por qué WCV</a></li>
@@ -177,16 +178,16 @@ footer{background:var(--navy2);padding:2rem 4rem;display:flex;align-items:center
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="inicio">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-accent"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">West Capital Ventures · Puerto Rico</div>
     <h1 class="hero-title">
-      Trabajas sin parar.<br>
-      <span class="thin">Tu dinero debería</span><br>
-      <span class="gold">hacer lo mismo.</span>
+      El ecosistema<br>
+      <span class="thin">que</span><br>
+      <span class="gold">trabaja para ti.</span>
     </h1>
     <p class="hero-sub">
       Somos una plataforma FinTech de Arquitectura Patrimonial. Automatizamos el cumplimiento tributario, protegemos lo que construyes y estructuramos tu negocio para que tu capital crezca — sin que tengas que estar encima de cada centavo.
@@ -245,6 +246,9 @@ footer{background:var(--navy2);padding:2rem 4rem;display:flex;align-items:center
       </p>
       <div class="quote-attr">West Capital Ventures — CFO Virtual · Puerto Rico</div>
     </div>
+  </div>
+  <div style="text-align:center;margin-top:3rem;">
+    <a href="#contacto" class="btn-primary" style="background:var(--navy);color:var(--gold);border:1px solid var(--gold);">Quiero mi diagnóstico gratuito</a>
   </div>
 </section>
 
