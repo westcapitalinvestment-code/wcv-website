@@ -1,483 +1,451 @@
-<index.html>  
-<html lang="es">  
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>West Capital Ventures LLC — Virtual CFO para Profesionales de la Salud</title>
-<meta name="description" content="Organizamos tus finanzas, optimizamos tu carga fiscal y te damos claridad total — para que puedas enfocarte en tus pacientes.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<title>West Capital Ventures — CFO Virtual · FinTech · Puerto Rico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#0D1B4B;
-  --navy2:#1A3272;
-  --navy3:#132060;
-  --orange:#E04A2B;
-  --orange-hover:#c73d22;
-  --white:#FFFFFF;
-  --muted:#A0AECF;
-  --light:#E8EDF8;
-  --card:#162356;
-  --border:#2B4A9E;
-  --success:#2ECC71;
+  --navy:#0D1B2A;--navy2:#162336;--navy3:#1E2E42;
+  --gold:#C9A84C;--gold2:#E8C96A;
+  --white:#FFFFFF;--offwhite:#F7F5F0;
+  --gray:#6B7280;--lightgray:#E5E7EB;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Inter',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth}
-body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.7}
+body{font-family:var(--fb);background:var(--navy);color:var(--white);overflow-x:hidden;line-height:1.6}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);background:rgba(13,27,75,.85);border-bottom:.5px solid rgba(43,74,158,.4)}
-.nav-logo{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--white);text-decoration:none;letter-spacing:.02em}
-.nav-logo span{color:var(--orange)}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s}
-.nav-links a:hover{color:var(--white)}
-.nav-cta{background:var(--orange);color:#fff;padding:.5rem 1.25rem;border-radius:100px;text-decoration:none;font-size:.85rem;font-weight:500;transition:background .2s}
-.nav-cta:hover{background:var(--orange-hover)}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 4rem;
+  background:rgba(13,27,42,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,0.15);
+}
+.nav-logo{font-family:var(--fd);font-size:1.6rem;font-weight:700;letter-spacing:.08em;color:var(--white)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.55rem 1.4rem;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:var(--fb);text-decoration:none}
+.nav-cta:hover{background:var(--gold);color:var(--navy)}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(224,74,43,.08) 0%,transparent 70%)}
-.hero-grid{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px}
-.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative}
-.hero-eyebrow{font-size:.75rem;letter-spacing:.18em;color:var(--orange);font-weight:500;text-transform:uppercase;margin-bottom:1rem}
-.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.1;margin-bottom:1.5rem}
-.hero-title em{color:var(--orange);font-style:italic}
-.hero-sub{color:var(--muted);font-size:1rem;margin-bottom:2rem;max-width:460px;line-height:1.75}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.btn-primary{background:var(--orange);color:#fff;padding:.75rem 2rem;border-radius:100px;text-decoration:none;font-weight:500;font-size:.9rem;transition:background .2s}
-.btn-primary:hover{background:var(--orange-hover)}
-.btn-secondary{border:0.5px solid var(--border);color:var(--white);padding:.75rem 2rem;border-radius:100px;text-decoration:none;font-weight:500;font-size:.9rem;transition:border-color .2s,color .2s}
-.btn-secondary:hover{border-color:var(--muted);color:var(--white)}
-.hero-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.hero-stat{background:var(--card);border:.5px solid var(--border);border-radius:16px;padding:1.5rem}
-.hero-stat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--white);line-height:1}
-.hero-stat-num span{color:var(--orange)}
-.hero-stat-label{font-size:.8rem;color:var(--muted);margin-top:.35rem;line-height:1.4}
-.hero-stat.accent{background:var(--orange);border-color:var(--orange)}
-.hero-stat.accent .hero-stat-num{color:#fff}
-.hero-stat.accent .hero-stat-label{color:rgba(255,255,255,.8)}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding:8rem 4rem 6rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0D1B2A 0%,#162336 50%,#0D1B2A 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px}
+.hero-accent{position:absolute;left:4rem;top:15%;bottom:15%;width:2px;background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
+.hero-content{position:relative;z-index:2;max-width:900px;text-align:center}
+.hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;height:1px;width:40px;background:var(--gold);opacity:.5}
+.hero-title{font-family:var(--fd);font-size:clamp(3rem,7vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.8rem;color:var(--white)}
+.hero-title .gold{color:var(--gold)}
+.hero-title .thin{font-weight:400;font-style:italic}
+.hero-sub{font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.65);max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.hero-ctas{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);padding:.9rem 2.2rem;font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;font-family:var(--fb);text-decoration:none;display:inline-block;transition:all .2s}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--white);padding:.9rem 2.2rem;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,.25);cursor:pointer;font-family:var(--fb);text-decoration:none;display:inline-block;transition:all .2s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* PROBLEM */
-.section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
-.section-label{font-size:.72rem;letter-spacing:.18em;color:var(--orange);font-weight:500;text-transform:uppercase;margin-bottom:.75rem}
-.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.2;margin-bottom:1rem}
-.section-sub{color:var(--muted);max-width:520px;margin-bottom:3rem;line-height:1.75}
-.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
-.problem-card{background:var(--card);border:.5px solid var(--border);border-radius:16px;padding:1.5rem}
-.problem-icon{width:40px;height:40px;border-radius:10px;background:rgba(224,74,43,.12);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
-.problem-icon svg{width:20px;height:20px;stroke:var(--orange);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.problem-card h3{font-size:.95rem;font-weight:500;margin-bottom:.4rem}
-.problem-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+section{padding:7rem 4rem}
+.section-label{font-size:.68rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.section-title{font-family:var(--fd);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.1;margin-bottom:1.2rem}
+.section-sub{font-size:1rem;font-weight:300;color:rgba(255,255,255,.6);max-width:520px;line-height:1.7}
+.gold-line{width:48px;height:2px;background:var(--gold);margin:1.2rem 0}
+.gold-line.center{margin:1.2rem auto}
 
-/* COMPARISON */
-.compare-wrap{background:var(--navy3);border:.5px solid var(--border);border-radius:20px;padding:2.5rem;margin:3rem 0}
-.compare-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:center}
-.compare-col{padding:1.5rem;border-radius:12px}
-.compare-col.before{background:rgba(255,255,255,.03);border:.5px solid rgba(255,255,255,.08)}
-.compare-col.after{background:rgba(224,74,43,.08);border:.5px solid rgba(224,74,43,.3)}
-.compare-label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;margin-bottom:.75rem}
-.compare-col.before .compare-label{color:var(--muted)}
-.compare-col.after .compare-label{color:var(--orange)}
-.compare-amount{font-family:'DM Serif Display',serif;font-size:2.4rem;line-height:1;margin-bottom:.3rem}
-.compare-col.before .compare-amount{color:rgba(255,255,255,.5)}
-.compare-col.after .compare-amount{color:var(--white)}
-.compare-desc{font-size:.8rem;color:var(--muted)}
-.compare-arrow{text-align:center;color:var(--orange);font-size:1.5rem}
-.compare-savings{text-align:center;margin-top:1.5rem;padding-top:1.5rem;border-top:.5px solid var(--border)}
-.compare-savings p{color:var(--muted);font-size:.85rem}
-.compare-savings strong{color:var(--success);font-size:1.1rem}
+/* PROBLEMA */
+.problema{background:var(--offwhite);color:var(--navy)}
+.problema .section-label{color:var(--gold)}
+.problema .section-title{color:var(--navy)}
+.problema .section-sub{color:rgba(13,27,42,.6)}
+.problema-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1100px;margin:0 auto}
+.pain-list{display:flex;flex-direction:column;gap:1.2rem;margin-top:2.5rem}
+.pain-item{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem 1.5rem;background:white;border-left:3px solid #E5E7EB;transition:border-color .2s}
+.pain-item:hover{border-left-color:var(--gold)}
+.pain-x{font-size:1.1rem;color:#DC2626;flex-shrink:0;margin-top:.1rem;font-weight:700}
+.pain-text{font-size:.9rem;line-height:1.5;color:var(--navy)}
+.pain-text strong{font-weight:600}
+.doctor-quote{background:var(--navy);color:white;padding:3rem;position:relative}
+.doctor-quote::before{content:'"';font-family:var(--fd);font-size:8rem;line-height:.8;color:var(--gold);opacity:.2;position:absolute;top:1rem;left:1.5rem}
+.quote-text{font-family:var(--fd);font-size:1.4rem;font-style:italic;line-height:1.5;position:relative;z-index:1;margin-bottom:1.5rem}
+.quote-attr{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
 
-/* SOLUTION */
-.solution-bg{background:linear-gradient(180deg,var(--navy) 0%,var(--navy3) 50%,var(--navy) 100%);padding:5rem 2rem}
-.solution-inner{max-width:1100px;margin:0 auto}
-.solution-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:3rem}
-.solution-card{background:var(--card);border:.5px solid var(--border);border-radius:16px;padding:1.5rem;position:relative;overflow:hidden}
-.solution-card::before{content:attr(data-num);position:absolute;top:-10px;right:12px;font-family:'DM Serif Display',serif;font-size:5rem;color:rgba(43,74,158,.25);line-height:1;pointer-events:none}
-.solution-card h3{font-size:.95rem;font-weight:500;margin-bottom:.4rem;position:relative}
-.solution-card p{font-size:.82rem;color:var(--muted);line-height:1.6;position:relative}
+/* SOLUCIÓN */
+.solucion{background:var(--navy2)}
+.solucion-inner{max-width:1100px;margin:0 auto;text-align:center}
+.pilares{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:4rem}
+.pilar{padding:2.5rem 1.8rem;border:1px solid rgba(201,168,76,.15);text-align:left;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+.pilar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.pilar:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px)}
+.pilar:hover::before{transform:scaleX(1)}
+.pilar-num{font-family:var(--fd);font-size:3rem;font-weight:700;color:rgba(201,168,76,.2);line-height:1;margin-bottom:1rem}
+.pilar-title{font-size:.95rem;font-weight:600;letter-spacing:.05em;color:var(--gold);margin-bottom:.8rem}
+.pilar-desc{font-size:.85rem;font-weight:300;color:rgba(255,255,255,.6);line-height:1.6}
 
-/* HOW IT WORKS */
-.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;margin-top:3rem;position:relative}
-.flow-grid::before{content:'';position:absolute;top:32px;left:10%;right:10%;height:.5px;background:var(--border)}
-.flow-step{text-align:center;padding:0 1rem}
-.flow-num{width:64px;height:64px;border-radius:50%;background:var(--card);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.4rem;margin:0 auto 1rem;position:relative;z-index:1}
-.flow-step:last-child .flow-num{background:var(--orange);border-color:var(--orange)}
-.flow-step h3{font-size:.9rem;font-weight:500;margin-bottom:.35rem}
-.flow-step p{font-size:.78rem;color:var(--muted);line-height:1.5}
-.flow-step small{display:block;font-size:.72rem;color:var(--orange);margin-top:.35rem;font-weight:500}
+/* PARA QUIÉN */
+.para-quien{background:var(--navy)}
+.perfiles{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem;max-width:1100px;margin-left:auto;margin-right:auto}
+.perfil{padding:2.8rem 2.2rem;background:var(--navy2);border-bottom:2px solid transparent;transition:border-color .3s;cursor:default}
+.perfil:hover{border-bottom-color:var(--gold)}
+.perfil-icon{font-size:2rem;margin-bottom:1.5rem}
+.perfil-title{font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:.5rem;color:var(--white)}
+.perfil-sub{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.perfil-items{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.perfil-items li{font-size:.85rem;color:rgba(255,255,255,.65);padding-left:1rem;position:relative}
+.perfil-items li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:.75rem}
 
-/* PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
-.price-card{background:var(--card);border:.5px solid var(--border);border-radius:20px;padding:2rem;position:relative}
-.price-card.featured{border-color:var(--orange);border-width:1.5px}
-.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:.7rem;padding:3px 14px;border-radius:100px;font-weight:500;white-space:nowrap}
-.price-name{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:.75rem}
-.price-amount{font-family:'DM Serif Display',serif;font-size:3rem;line-height:1;margin-bottom:.25rem}
-.price-amount span{font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--muted)}
-.price-desc{font-size:.82rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
-.price-features{list-style:none;display:flex;flex-direction:column;gap:.6rem}
-.price-features li{font-size:.82rem;color:var(--light);display:flex;gap:.5rem;align-items:flex-start}
-.price-features li::before{content:'✓';color:var(--success);flex-shrink:0;font-weight:500}
-.price-cta{display:block;text-align:center;margin-top:1.5rem;padding:.7rem;border-radius:100px;font-size:.85rem;font-weight:500;text-decoration:none;transition:all .2s}
-.price-card.featured .price-cta{background:var(--orange);color:#fff}
-.price-card.featured .price-cta:hover{background:var(--orange-hover)}
-.price-card:not(.featured) .price-cta{border:.5px solid var(--border);color:var(--white)}
-.price-card:not(.featured) .price-cta:hover{border-color:var(--muted)}
+/* EL SISTEMA */
+.sistema{background:var(--offwhite);color:var(--navy)}
+.sistema .section-label{color:var(--gold)}
+.sistema .section-title{color:var(--navy)}
+.fases{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;max-width:1100px;margin-left:auto;margin-right:auto;border:1px solid #E5E7EB}
+.fase{padding:2.5rem 1.8rem;border-right:1px solid #E5E7EB;position:relative}
+.fase:last-child{border-right:none}
+.fase-num{font-family:var(--fd);font-size:4rem;font-weight:700;color:rgba(201,168,76,.2);line-height:1;margin-bottom:1rem}
+.fase-title{font-size:.9rem;font-weight:700;letter-spacing:.05em;color:var(--navy);margin-bottom:.8rem;text-transform:uppercase}
+.fase-desc{font-size:.82rem;color:rgba(13,27,42,.6);line-height:1.6}
+.fase-arrow{position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--navy);font-weight:700;z-index:2}
 
-/* CONTACT FORM */
-.contact-wrap{background:var(--navy3);border:.5px solid var(--border);border-radius:24px;padding:3rem;max-width:700px;margin:3rem auto 0}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.form-group{display:flex;flex-direction:column;gap:.4rem}
-.form-group.full{grid-column:1/-1}
-label{font-size:.78rem;color:var(--muted);font-weight:500;letter-spacing:.04em}
-input,select,textarea{background:rgba(255,255,255,.04);border:.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;width:100%}
-input::placeholder,textarea::placeholder{color:rgba(160,174,207,.4)}
-input:focus,select:focus,textarea:focus{border-color:var(--orange)}
-select option{background:var(--navy3);color:var(--white)}
-textarea{resize:vertical;min-height:100px}
-.form-submit{width:100%;background:var(--orange);color:#fff;border:none;padding:.85rem;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;transition:background .2s;margin-top:.5rem}
-.form-submit:hover{background:var(--orange-hover)}
-.form-success{display:none;text-align:center;padding:2rem;color:var(--success)}
-.form-success h3{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:.5rem}
-.form-success p{color:var(--muted);font-size:.88rem}
+/* DIFERENCIADORES */
+.diferenciadores{background:var(--navy2)}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1100px;margin:0 auto}
+.diff-items{display:flex;flex-direction:column;gap:2rem;margin-top:2.5rem}
+.diff-item{display:flex;gap:1.5rem;align-items:flex-start}
+.diff-num{font-family:var(--fd);font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1;flex-shrink:0;opacity:.8}
+.diff-content h4{font-size:.9rem;font-weight:600;letter-spacing:.05em;margin-bottom:.4rem;color:var(--white)}
+.diff-content p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6}
+.engine-card{background:var(--navy);border:1px solid rgba(201,168,76,.2);padding:3rem}
+.engine-tag{display:inline-block;background:var(--gold);color:var(--navy);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .8rem;margin-bottom:1.5rem}
+.engine-title{font-family:var(--fd);font-size:1.8rem;font-weight:700;line-height:1.2;margin-bottom:1.2rem;color:var(--white)}
+.engine-title span{color:var(--gold)}
+.engine-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:2rem}
+.engine-steps{display:flex;flex-direction:column;gap:.8rem}
+.engine-step{display:flex;align-items:center;gap:1rem;font-size:.8rem;color:rgba(255,255,255,.7)}
+.engine-dot{width:6px;height:6px;background:var(--gold);flex-shrink:0}
 
-/* FOOTER */
-footer{border-top:.5px solid var(--border);padding:2rem;text-align:center}
-footer p{font-size:.78rem;color:var(--muted)}
-footer strong{color:var(--white)}
+/* CTA */
+.cta-final{background:var(--navy);text-align:center;padding:8rem 4rem;position:relative;overflow:hidden}
+.cta-final::before{content:'WCV';font-family:var(--fd);font-size:30vw;font-weight:700;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:rgba(201,168,76,.03);white-space:nowrap;pointer-events:none;letter-spacing:-.02em}
+.cta-inner{position:relative;z-index:2;max-width:680px;margin:0 auto}
+.cta-title{font-family:var(--fd);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
+.cta-title .gold{color:var(--gold)}
+.cta-sub{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);margin-bottom:3rem;line-height:1.7}
+.cta-email{font-size:.8rem;letter-spacing:.15em;color:rgba(255,255,255,.35);margin-top:2rem;text-transform:uppercase}
+.cta-email a{color:var(--gold);text-decoration:none}
+.cta-email a:hover{text-decoration:underline}
 
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero-inner>*{animation:fadeUp .7s ease both}
-.hero-inner>*:nth-child(2){animation-delay:.15s}
+footer{background:var(--navy2);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,.1)}
+.footer-logo{font-family:var(--fd);font-size:1.2rem;font-weight:700;letter-spacing:.08em;color:var(--white)}
+.footer-logo span{color:var(--gold)}
+.footer-info{font-size:.7rem;color:rgba(255,255,255,.25);letter-spacing:.06em;text-align:center}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:.7rem;color:rgba(255,255,255,.3);text-decoration:none;letter-spacing:.06em;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  .hero-inner{grid-template-columns:1fr}
-  .hero-stat-grid{display:none}
-  .compare-grid{grid-template-columns:1fr;gap:.75rem}
-  .compare-arrow{transform:rotate(90deg)}
-  .flow-grid::before{display:none}
-  .form-grid{grid-template-columns:1fr}
-  .form-group.full{grid-column:1}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
   .nav-links{display:none}
+  section{padding:5rem 1.5rem}
+  .hero{padding:7rem 1.5rem 5rem}
+  .problema-grid,.diff-grid{grid-template-columns:1fr;gap:3rem}
+  .pilares{grid-template-columns:1fr 1fr}
+  .perfiles{grid-template-columns:1fr}
+  .fases{grid-template-columns:1fr 1fr}
+  footer{flex-direction:column;gap:1.2rem;text-align:center}
+  .fase-arrow{display:none}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">West Capital <span>Ventures</span></a>
+  <div class="nav-logo">W<span>C</span>V</div>
   <ul class="nav-links">
-    <li><a href="#problema">El problema</a></li>
-    <li><a href="#solucion">Solución</a></li>
-    <li><a href="#proceso">Proceso</a></li>
-    <li><a href="#precios">Precios</a></li>
+    <li><a href="#para-quien">¿Para quién?</a></li>
+    <li><a href="#sistema">El Sistema</a></li>
+    <li><a href="#diferenciadores">Por qué WCV</a></li>
   </ul>
-  <a href="#contacto" class="nav-cta">Solicitar diagnóstico</a>
+  <a href="#contacto" class="nav-cta">Diagnóstico gratuito</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-inner">
-    <div>
-      <p class="hero-eyebrow">Virtual CFO · Puerto Rico</p>
-      <h1 class="hero-title">Tu consultorio<br>es un negocio.<br><em>¿Lo estás manejando como tal?</em></h1>
-      <p class="hero-sub">Organizamos tus finanzas, optimizamos tu carga fiscal y te damos claridad total — para que puedas enfocarte en tus pacientes.</p>
-      <div class="hero-actions">
-        <a href="#contacto" class="btn-primary">Solicitar diagnóstico gratis</a>
-        <a href="#solucion" class="btn-secondary">Ver cómo funciona</a>
-      </div>
+  <div class="hero-accent"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">West Capital Ventures · Puerto Rico</div>
+    <h1 class="hero-title">
+      Trabajas sin parar.<br>
+      <span class="thin">Tu dinero debería</span><br>
+      <span class="gold">hacer lo mismo.</span>
+    </h1>
+    <p class="hero-sub">
+      Somos una plataforma FinTech de Arquitectura Patrimonial. Automatizamos el cumplimiento tributario, protegemos lo que construyes y estructuramos tu negocio para que tu capital crezca — sin que tengas que estar encima de cada centavo.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contacto" class="btn-primary">Agende su diagnóstico</a>
+      <a href="#sistema" class="btn-secondary">Ver cómo funciona</a>
     </div>
-    <div class="hero-stat-grid">
-      <div class="hero-stat">
-        <div class="hero-stat-num">8<span>/10</span></div>
-        <div class="hero-stat-label">médicos en PR opera sin estructura legal ni fiscal</div>
-      </div>
-      <div class="hero-stat accent">
-        <div class="hero-stat-num">$12K<span>+</span></div>
-        <div class="hero-stat-label">ahorro fiscal promedio anual — sin cambiar lo que ganas</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">$0</div>
-        <div class="hero-stat-label">en impuestos federales si vives y trabajas en PR</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">100<span>%</span></div>
-        <div class="hero-stat-label">automatizado — tú solo lees el reporte mensual</div>
-      </div>
-    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Descubrir</span>
   </div>
 </section>
 
-<!-- PROBLEMA -->
-<section id="problema" style="padding:5rem 2rem;background:var(--navy3)">
-  <div style="max-width:1100px;margin:0 auto">
-    <p class="section-label">El problema</p>
-    <h2 class="section-title">Nadie te enseñó a manejar tu negocio.</h2>
-    <p class="section-sub">Estudiaste por 12 años o más para tratar pacientes. Mientras tanto, tu dinero trabaja en tu contra.</p>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <h3>Todo mezclado</h3>
-        <p>Cuentas personales y del negocio combinadas. No sabes cuánto ganas realmente.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-        <h3>Máxima carga fiscal</h3>
-        <p>Pagas SE Tax + CFIT sobre todo tu ingreso. Más que cualquier empleado regular.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-        <h3>Sin estructura legal</h3>
-        <p>Sin LLC ni S-Corp. Tu casa, tu carro y tus ahorros están expuestos ante cualquier reclamación.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <h3>CPA reactivo</h3>
-        <p>Tu contable llega en abril. Nadie está mirando tus números durante el año.</p>
+<!-- EL PROBLEMA -->
+<section class="problema" id="problema">
+  <div class="problema-grid">
+    <div>
+      <div class="section-label">La realidad que nadie te dice</div>
+      <h2 class="section-title">Trabajas y trabajas.<br>Tu dinero<br>no sobra ni crece.</h2>
+      <div class="gold-line"></div>
+      <p class="section-sub">
+        La mayoría de los profesionales en Puerto Rico operan bajo una estructura financiera que fue diseñada para hacerles pagar de más — no por falta de éxito, sino por ausencia del sistema correcto.
+      </p>
+    </div>
+    <div>
+      <div class="pain-list">
+        <div class="pain-item">
+          <span class="pain-x">✗</span>
+          <span class="pain-text">Pagas tasas de impuesto que podrías reducir <strong>significativamente</strong> con la estructura legal correcta bajo tu entidad jurídica</span>
+        </div>
+        <div class="pain-item">
+          <span class="pain-x">✗</span>
+          <span class="pain-text">Pierdes fondos federales y del DDEC porque <strong>no tienes los papeles al día</strong> cuando abren las convocatorias</span>
+        </div>
+        <div class="pain-item">
+          <span class="pain-x">✗</span>
+          <span class="pain-text">Tus inversiones están expuestas al IRS federal por <strong>errores de clasificación</strong> que nadie te ha señalado</span>
+        </div>
+        <div class="pain-item">
+          <span class="pain-x">✗</span>
+          <span class="pain-text">La estructura de contabilidad tradicional te dice cuánto debes pagar <strong>cuando ya es tarde</strong> para hacer algo al respecto</span>
+        </div>
+        <div class="pain-item">
+          <span class="pain-x">✗</span>
+          <span class="pain-text">Un documento mal radicado puede <strong>costar caro</strong> — y nunca te avisa hasta que el daño ya está hecho</span>
+        </div>
       </div>
     </div>
-
-    <div class="compare-wrap">
-      <p class="section-label" style="margin-bottom:1.5rem">Lo que te está costando — ejemplo real con $300K ingresos</p>
-      <div class="compare-grid">
-        <div class="compare-col before">
-          <div class="compare-label">Individuo hoy</div>
-          <div class="compare-amount">$55,883</div>
-          <div class="compare-desc">en impuestos al año</div>
-          <div style="margin-top:.75rem;font-size:.8rem;color:rgba(160,174,207,.6)">Take-home: $92,117</div>
-        </div>
-        <div class="compare-arrow">→</div>
-        <div class="compare-col after">
-          <div class="compare-label">S-Corp óptimo</div>
-          <div class="compare-amount">$43,235</div>
-          <div class="compare-desc">en impuestos al año</div>
-          <div style="margin-top:.75rem;font-size:.8rem;color:rgba(255,255,255,.6)">Take-home: $104,765</div>
-        </div>
-      </div>
-      <div class="compare-savings">
-        <p>Ahorro anual: <strong>+$12,648</strong> — sin cambiar lo que ganas ni cómo trabajas.</p>
-      </div>
+  </div>
+  <div style="max-width:1100px;margin:4rem auto 0;">
+    <div class="doctor-quote">
+      <p class="quote-text">
+        "La estructura de contabilidad tradicional te dice cuánto tienes que pagar cuando ya es demasiado tarde para hacer algo. Nosotros estructuramos tu negocio para que eso nunca vuelva a pasar."
+      </p>
+      <div class="quote-attr">West Capital Ventures — CFO Virtual · Puerto Rico</div>
     </div>
   </div>
 </section>
 
 <!-- SOLUCIÓN -->
-<section id="solucion" class="solution-bg">
-  <div class="solution-inner">
-    <p class="section-label">La solución</p>
-    <h2 class="section-title">Virtual CFO para profesionales de la salud.</h2>
-    <p class="section-sub">No somos un CPA. Somos el equipo que nadie más te ofrece — con tecnología que trabaja por ti las 24 horas.</p>
-    <div class="solution-grid">
-      <div class="solution-card" data-num="01">
-        <h3>Separación financiera</h3>
-        <p>Cuentas, LLC, flujo de dinero limpio y separado desde el día uno.</p>
+<section class="solucion" id="solucion">
+  <div class="solucion-inner">
+    <div class="section-label">Lo que hacemos</div>
+    <h2 class="section-title">No somos una estructura contable.<br>Somos tu motor de riqueza.</h2>
+    <div class="gold-line center"></div>
+    <p class="section-sub" style="margin:0 auto;">
+      Combinamos inteligencia artificial, integración bancaria y cumplimiento tributario automatizado para construir el ecosistema financiero que tu negocio merece.
+    </p>
+    <div class="pilares">
+      <div class="pilar">
+        <div class="pilar-num">01</div>
+        <div class="pilar-title">Inteligencia Artificial</div>
+        <p class="pilar-desc">Tu contabilidad conciliada en tiempo real. Sin errores humanos. Sin buscar recibos a fin de mes.</p>
       </div>
-      <div class="solution-card" data-num="02">
-        <h3>Dashboard mensual</h3>
-        <p>P&L, KPIs y deducciones documentadas — automatizadas, sin que toques nada.</p>
+      <div class="pilar">
+        <div class="pilar-num">02</div>
+        <div class="pilar-title">Banca Global Integrada</div>
+        <p class="pilar-desc">Banca local, banco digital operativo y cuenta de inversión institucional — conectados y automatizados bajo tu entidad jurídica.</p>
       </div>
-      <div class="solution-card" data-num="03">
-        <h3>Optimización fiscal</h3>
-        <p>S-Corp, salario razonable, Solo 401k. Coordinación total con tu CPA.</p>
+      <div class="pilar">
+        <div class="pilar-num">03</div>
+        <div class="pilar-title">Blindaje Fiscal</div>
+        <p class="pilar-desc">Estructura legal optimizada — decreto Ley 60 o S-Corp según tu perfil — para el menor costo contributivo legal posible.</p>
       </div>
-      <div class="solution-card" data-num="04">
-        <h3>Plan de excedente</h3>
-        <p>Retiro, inversión y patrimonio. Lo que sobre, trabaja para ti.</p>
-      </div>
-      <div class="solution-card" data-num="05">
-        <h3>Coordinación total</h3>
-        <p>CPA, abogado, credentialing. Un solo punto de contacto para todo.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESO -->
-<section id="proceso" style="padding:5rem 2rem">
-  <div style="max-width:1100px;margin:0 auto">
-    <p class="section-label">El proceso</p>
-    <h2 class="section-title">Así trabajamos contigo.</h2>
-    <p class="section-sub">Cuatro pasos — de la situación actual a la optimización total.</p>
-    <div class="flow-grid">
-      <div class="flow-step">
-        <div class="flow-num">1</div>
-        <h3>Diagnóstico</h3>
-        <p>Auditoría completa de tu situación. Cuánto pagas, cuánto puedes ahorrar.</p>
-        <small>1–2 semanas · $500</small>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">2</div>
-        <h3>Estructuración</h3>
-        <p>LLC/S-Corp, EIN, cuentas separadas y NPI Tipo 2 si aplica.</p>
-        <small>2–4 semanas · incluido</small>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">3</div>
-        <h3>Activación</h3>
-        <p>Recredentialing con los planes médicos a través de aliados especializados.</p>
-        <small>3–6 meses · incluido</small>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">4</div>
-        <h3>Optimización</h3>
-        <p>Dashboard mensual, deducciones documentadas y plan de retiro activo.</p>
-        <small>continuo · retainer</small>
+      <div class="pilar">
+        <div class="pilar-num">04</div>
+        <div class="pilar-title">Predictive Fiscal Engine™</div>
+        <p class="pilar-desc">Nuestro agente de IA monitorea SURI y el DDEC. Cuando hay una oportunidad para tu negocio, estás primero en la fila.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRECIOS -->
-<section id="precios" style="padding:5rem 2rem;background:var(--navy3)">
-  <div style="max-width:1100px;margin:0 auto">
-    <p class="section-label">La inversión</p>
-    <h2 class="section-title">El retainer se paga solo.</h2>
-    <p class="section-sub">Ahorro típico: $12,000–$20,000 al año en impuestos y deducciones.</p>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <p class="price-name">Diagnóstico inicial</p>
-        <div class="price-amount">$500 <span>one-time</span></div>
-        <p class="price-desc">Una revisión completa con tus números reales — sin compromiso adicional.</p>
-        <ul class="price-features">
-          <li>Auditoría financiera completa</li>
-          <li>Análisis de estructura legal</li>
-          <li>Cálculo de ahorro potencial</li>
-          <li>Plan de acción detallado</li>
-          <li>Sin compromiso adicional</li>
-        </ul>
-        <a href="#contacto" class="price-cta">Solicitar diagnóstico</a>
-      </div>
-      <div class="price-card featured">
-        <div class="price-badge">Más popular</div>
-        <p class="price-name">Retainer Core</p>
-        <div class="price-amount">$750 <span>/mes</span></div>
-        <p class="price-desc">Todo lo del diagnóstico más servicio continuo todo el año.</p>
-        <ul class="price-features">
-          <li>Dashboard mensual P&L</li>
-          <li>Coordinación con tu CPA</li>
-          <li>Deducciones documentadas</li>
-          <li>Revisión trimestral</li>
-          <li>Alertas y recomendaciones</li>
-        </ul>
-        <a href="#contacto" class="price-cta">Comenzar ahora</a>
-      </div>
-      <div class="price-card">
-        <p class="price-name">Retainer Grupo</p>
-        <div class="price-amount" style="font-size:2rem">Custom <span>por grupo</span></div>
-        <p class="price-desc">Para grupos médicos de 2 a 10+ profesionales con múltiples entidades.</p>
-        <ul class="price-features">
-          <li>Precio por profesional</li>
-          <li>Dashboard consolidado</li>
-          <li>Reuniones de grupo</li>
-          <li>Estrategia colectiva</li>
-          <li>Multi-entidad y corporaciones</li>
-        </ul>
-        <a href="#contacto" class="price-cta">Solicitar propuesta</a>
-      </div>
+<!-- PARA QUIÉN -->
+<section class="para-quien" id="para-quien">
+  <div style="text-align:center;margin-bottom:1rem;">
+    <div class="section-label">¿Para quién es WCV?</div>
+    <h2 class="section-title">Diseñado para hacer escalar<br>tu negocio a otro nivel<br><span style="color:var(--gold)">y que tu dinero trabaje para ti.</span></h2>
+    <div class="gold-line center"></div>
+  </div>
+  <div class="perfiles">
+    <div class="perfil">
+      <div class="perfil-icon">⚕️</div>
+      <div class="perfil-title">Profesional de la Salud con Decreto</div>
+      <div class="perfil-sub">Ley 60 · 4% garantizado</div>
+      <ul class="perfil-items">
+        <li>Tasa fija sobre ganancias de tu negocio</li>
+        <li>Inversiones blindadas bajo tu entidad jurídica en PR</li>
+        <li>Informe anual DDEC automatizado — sin riesgo de revocación</li>
+        <li>Capital creciendo libre del IRS federal</li>
+        <li>Acceso a liquidez sin vender inversiones</li>
+      </ul>
+    </div>
+    <div class="perfil">
+      <div class="perfil-icon">🏥</div>
+      <div class="perfil-title">Profesional de la Salud Sin Decreto</div>
+      <div class="perfil-sub">S-Corp · Ahorro desde el primer mes</div>
+      <ul class="perfil-items">
+        <li>Estructura que elimina pagos innecesarios de Seguro Social</li>
+        <li>Salario razonable W-2 estructurado y defendible</li>
+        <li>Ruta acelerada hacia el decreto del 4%</li>
+        <li>Sistema listo para activar el beneficio al obtenerlo</li>
+        <li>Ahorro real visible desde el arranque</li>
+      </ul>
+    </div>
+    <div class="perfil">
+      <div class="perfil-icon">🔬</div>
+      <div class="perfil-title">Negocio de Salud en Crecimiento</div>
+      <div class="perfil-sub">Multi-entidad · Escala</div>
+      <ul class="perfil-items">
+        <li>Múltiples entidades bajo un solo sistema automatizado</li>
+        <li>Nómina integrada y cumplimiento federal sin burocracia</li>
+        <li>Fondos federales para subsidio de crecimiento de personal</li>
+        <li>Libros al día para auditorías y programas de financiamiento</li>
+        <li>Estructura diseñada para escalar sin fricción operacional</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- CONTACTO -->
-<section id="contacto" style="padding:5rem 2rem">
-  <div style="max-width:1100px;margin:0 auto">
-    <p class="section-label">Contacto</p>
-    <h2 class="section-title">Empieza con el diagnóstico.</h2>
-    <p class="section-sub">Sin compromiso. Solo llena el formulario y uno de nuestros especialistas se comunicará contigo en menos de 24 horas.</p>
-    <div class="contact-wrap">
-      <form id="contactForm" onsubmit="handleSubmit(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Nombre completo *</label>
-            <input type="text" placeholder="Dr. Juan García" required>
-          </div>
-          <div class="form-group">
-            <label>Teléfono *</label>
-            <input type="tel" placeholder="(787) 000-0000" required>
-          </div>
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" placeholder="doctor@clinica.com" required>
-          </div>
-          <div class="form-group">
-            <label>Especialidad</label>
-            <select>
-              <option value="" disabled selected>Selecciona tu especialidad</option>
-              <option>Medicina general / PCP</option>
-              <option>Cardiología</option>
-              <option>Gastroenterología</option>
-              <option>Neurología</option>
-              <option>Nefrología</option>
-              <option>Dentista / Odontología</option>
-              <option>Quiropráctica</option>
-              <option>Terapia física</option>
-              <option>Otra especialidad</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Facturación anual aproximada</label>
-            <select>
-              <option value="" disabled selected>Selecciona un rango</option>
-              <option>Menos de $100,000</option>
-              <option>$100,000 — $200,000</option>
-              <option>$200,000 — $500,000</option>
-              <option>$500,000 — $1,000,000</option>
-              <option>Más de $1,000,000</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Estructura actual</label>
-            <select>
-              <option value="" disabled selected>¿Tienes LLC o S-Corp?</option>
-              <option>Individuo — sin entidad</option>
-              <option>LLC</option>
-              <option>S-Corp</option>
-              <option>PSC / Corporación profesional</option>
-              <option>Múltiples entidades</option>
-              <option>No estoy seguro</option>
-            </select>
-          </div>
-          <div class="form-group full">
-            <label>¿Cuál es tu mayor reto financiero hoy?</label>
-            <textarea placeholder="Cuéntanos brevemente tu situación — impuestos, estructura, flujo de caja, múltiples negocios..."></textarea>
+<!-- EL SISTEMA -->
+<section class="sistema" id="sistema">
+  <div style="text-align:center;margin-bottom:1rem;">
+    <div class="section-label">El proceso</div>
+    <h2 class="section-title" style="color:var(--navy)">Cómo transformamos<br>tu negocio — paso a paso.</h2>
+    <div class="gold-line center"></div>
+  </div>
+  <div class="fases">
+    <div class="fase">
+      <div class="fase-num">01</div>
+      <div class="fase-title">Diagnóstico</div>
+      <p class="fase-desc">Análisis de tu estructura actual. Identificamos exactamente cuánto estás pagando de más y qué puede corregirse desde el primer mes.</p>
+      <div class="fase-arrow">→</div>
+    </div>
+    <div class="fase">
+      <div class="fase-num">02</div>
+      <div class="fase-title">Setup Legal</div>
+      <p class="fase-desc">Entidad jurídica, cuentas bancarias e inversión institucional. El andamiaje completo en días — sin detener tu operación.</p>
+      <div class="fase-arrow">→</div>
+    </div>
+    <div class="fase">
+      <div class="fase-num">03</div>
+      <div class="fase-title">Sistema Activo</div>
+      <p class="fase-desc">IA monitoreando tus libros en tiempo real. Nómina automatizada. Cumplimiento tributario gestionado sin intervención manual constante.</p>
+      <div class="fase-arrow">→</div>
+    </div>
+    <div class="fase">
+      <div class="fase-num">04</div>
+      <div class="fase-title">Crecimiento Automático</div>
+      <p class="fase-desc">Tu capital excedente migra a inversión institucional en piloto automático. Tú solo te enfocas en lo que mejor sabes hacer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIADORES -->
+<section class="diferenciadores" id="diferenciadores">
+  <div class="diff-grid">
+    <div>
+      <div class="section-label">Por qué West Capital</div>
+      <h2 class="section-title">La infraestructura que la contabilidad tradicional no tiene.</h2>
+      <div class="gold-line"></div>
+      <p class="section-sub">La diferencia no está en lo que sabemos — está en el sistema que construimos para que nunca vuelvas a llegar tarde a una oportunidad.</p>
+      <div class="diff-items">
+        <div class="diff-item">
+          <div class="diff-num">I</div>
+          <div class="diff-content">
+            <h4>Cloud Vault — Documentación Segura</h4>
+            <p>Cada radicación tiene su respaldo digital. Si una agencia gubernamental cuestiona un documento, lo presentamos con evidencia en minutos.</p>
           </div>
         </div>
-        <button type="submit" class="form-submit">Solicitar diagnóstico gratuito →</button>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <h3>¡Mensaje recibido!</h3>
-        <p>Uno de nuestros especialistas se comunicará contigo en menos de 24 horas.</p>
+        <div class="diff-item">
+          <div class="diff-num">II</div>
+          <div class="diff-content">
+            <h4>CPA Aliado Certificado</h4>
+            <p>Trabajamos con CPAs colegiados que firman las planillas. Tienes el respaldo de un profesional certificado — sin pagar las horas que tardamos en preparar.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-num">III</div>
+          <div class="diff-content">
+            <h4>Libros Al Día — Siempre</h4>
+            <p>Tus estados financieros disponibles al día de ayer, en todo momento. Cuando un banco, auditor o programa de fondos los pida — ya están listos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="engine-card">
+        <div class="engine-tag">Exclusivo WCV</div>
+        <h3 class="engine-title">Predictive<br>Fiscal <span>Engine™</span></h3>
+        <p class="engine-desc">
+          Nuestro agente de inteligencia artificial monitorea fuentes de datos del gobierno continuamente. Cuando detecta una oportunidad, cruza los requisitos con tus libros y genera la alerta antes que nadie.
+        </p>
+        <div class="engine-steps">
+          <div class="engine-step"><div class="engine-dot"></div><span>Monitoreo continuo de SURI, DDEC y portales federales</span></div>
+          <div class="engine-step"><div class="engine-dot"></div><span>IA extrae requisitos y valida contra tus libros en segundos</span></div>
+          <div class="engine-step"><div class="engine-dot"></div><span>Expediente generado automáticamente con tu data</span></div>
+          <div class="engine-step"><div class="engine-dot"></div><span>Recibes la alerta — con el borrador ya listo para revisar</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- CTA FINAL -->
+<section class="cta-final" id="contacto">
+  <div class="cta-inner">
+    <div class="section-label" style="text-align:center;">El próximo paso</div>
+    <h2 class="cta-title">
+      Tu diagnóstico es gratuito.<br>
+      <span class="gold">El siguiente nivel</span><br>
+      comienza aquí.
+    </h2>
+    <p class="cta-sub">
+      Una conversación de 30 minutos es suficiente para saber exactamente cuánto estás dejando sobre la mesa — y cómo WCV lo cambia. Sin compromiso. Sin letra pequeña.
+    </p>
+    <a href="mailto:info@westcapitalventuresllc.com" class="btn-primary">Escríbenos ahora</a>
+    <div class="cta-email">
+      <a href="mailto:info@westcapitalventuresllc.com">info@westcapitalventuresllc.com</a>
+      &nbsp;·&nbsp;
+      <a href="https://westcapitalventuresllc.com" target="_blank">westcapitalventuresllc.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p><strong>West Capital Ventures LLC</strong> · Virtual CFO para Profesionales de la Salud en Puerto Rico</p>
-  <p style="margin-top:.35rem">westcapitalventuresllc.com · © 2026 Todos los derechos reservados</p>
+  <div class="footer-logo">W<span>C</span>V</div>
+  <div class="footer-info">
+    West Capital Ventures · Puerto Rico<br>
+    © 2026 · Todos los derechos reservados
+  </div>
+  <div class="footer-links">
+    <a href="mailto:info@westcapitalventuresllc.com">Contacto</a>
+    <a href="https://westcapitalventuresllc.com" target="_blank">westcapitalventuresllc.com</a>
+  </div>
 </footer>
 
-<script>
-function handleSubmit(e){
-  e.preventDefault();
-  document.getElementById('contactForm').style.display='none';
-  document.getElementById('formSuccess').style.display='block';
-}
-
-// Smooth active nav on scroll
-const sections=document.querySelectorAll('section[id]');
-window.addEventListener('scroll',()=>{
-  const y=window.scrollY+80;
-  sections.forEach(s=>{
-    const top=s.offsetTop,h=s.offsetHeight;
-    const link=document.querySelector(`nav a[href="#${s.id}"]`);
-    if(link){link.style.color=y>=top&&y<top+h?'var(--white)':''}
-  });
-});
-</script>
 </body>
 </html>
