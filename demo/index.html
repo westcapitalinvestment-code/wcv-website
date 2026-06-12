@@ -1,1 +1,338 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WCV — Portal Cliente</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0ee; min-height: 100vh; }
+
+/* NAV */
+.nav { background: #1F3864; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.01em; }
+.nav-logo span { color: #9FE1CB; }
+.nav-user { display: flex; align-items: center; gap: 8px; color: #9FE1CB; font-size: 13px; }
+.nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: #2E75B6; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; }
+
+/* SUBBAR */
+.subbar { background: #162d52; padding: 0 24px; display: flex; gap: 0; border-bottom: 1px solid #0d1f3a; }
+.stab { font-size: 12px; color: #7a9cc8; padding: 10px 16px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s; }
+.stab:hover { color: #9FE1CB; }
+.stab.active { color: #9FE1CB; border-bottom: 2px solid #9FE1CB; }
+
+/* MAIN */
+.main { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+.greeting { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+.subgreeting { font-size: 13px; color: #888; margin-bottom: 20px; }
+
+/* PRIVACY TOGGLE */
+.privacy-bar { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 16px; gap: 8px; }
+.privacy-btn { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; background: #fff; border: 1px solid #ddd; border-radius: 20px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; user-select: none; }
+.privacy-btn:hover { border-color: #1F3864; color: #1F3864; }
+.privacy-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+.kpi { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 14px 16px; }
+.kpi-label { font-size: 11px; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.kpi-val { font-size: 22px; font-weight: 600; }
+.kpi-val.grn { color: #1D9E75; }
+.kpi-val.red { color: #A32D2D; }
+.kpi-val.blu { color: #185FA5; }
+.kpi-val.dark { color: #1F3864; }
+.kpi-delta { font-size: 11px; margin-top: 3px; }
+.kpi-delta.up { color: #1D9E75; }
+.kpi-delta.dn { color: #A32D2D; }
+
+/* ROWS */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.card { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px; }
+.card-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+
+/* BARS */
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.bar-lbl { font-size: 11px; color: #555; width: 80px; flex-shrink: 0; }
+.bar-bg { flex: 1; height: 7px; background: #f0f0f0; border-radius: 4px; }
+.bar-fill { height: 7px; border-radius: 4px; transition: width 0.4s; }
+.bar-amt { font-size: 11px; color: #888; min-width: 50px; text-align: right; }
+
+/* ALERTS */
+.alert-item { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
+.alert-item:last-child { border-bottom: none; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.dot-warn { background: #EF9F27; }
+.dot-ok { background: #1D9E75; }
+.dot-red { background: #E24B4A; }
+.dot-blu { background: #185FA5; }
+.alert-text { font-size: 12px; color: #333; line-height: 1.4; flex: 1; }
+.alert-sub { font-size: 11px; color: #aaa; }
+
+/* GESTORIA */
+.gest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.gest-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #333; padding: 4px 0; }
+.gest-icon { font-size: 14px; flex-shrink: 0; }
+
+/* SCHWAB */
+.schwab-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; }
+.schwab-row:last-child { border-bottom: none; }
+.schwab-lbl { color: #555; }
+.schwab-val { font-weight: 500; color: #1F3864; }
+.schwab-val.grn { color: #1D9E75; }
+.schwab-val.blu { color: #185FA5; }
+
+/* TAX */
+.tax-arc-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 8px; }
+.tax-pct { font-size: 28px; font-weight: 600; color: #185FA5; }
+.tax-sub { font-size: 11px; color: #888; }
+.tax-rows .schwab-row { font-size: 12px; }
+
+/* MASKED */
+.masked { letter-spacing: 0.12em; color: #bbb; font-size: 18px; }
+.kpi-val .masked { font-size: 18px; }
+
+/* FOOTER */
+.portal-footer { text-align: center; padding: 24px 0 12px; font-size: 11px; color: #aaa; }
+
+/* RESERVE BAR */
+.reserve-bar-bg { background: #f0f0f0; border-radius: 6px; height: 10px; margin: 8px 0 4px; }
+.reserve-bar-fill { height: 10px; border-radius: 6px; background: #185FA5; transition: width 0.4s; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">West Capital <span>Ventures</span></div>
+  <div class="nav-user">
+    <div class="nav-avatar">JD</div>
+    <span>Dr. Juan Del Pueblo</span>
+  </div>
+</nav>
+
+<div class="subbar">
+  <div class="stab active">Resumen</div>
+  <div class="stab">Ingresos</div>
+  <div class="stab">Gastos</div>
+  <div class="stab">Tax Reserve</div>
+  <div class="stab">Inversiones</div>
+  <div class="stab">Gestoría</div>
+</div>
+
+<div class="main">
+  <div class="greeting">Buen día, Dr. Del Pueblo</div>
+  <div class="subgreeting">Resumen financiero — junio 2026 &nbsp;·&nbsp; Actualizado hoy a las 8:14 AM</div>
+
+  <div class="privacy-bar">
+    <div class="privacy-btn" id="privacyBtn" onclick="togglePrivacy()">
+      <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      <span id="privacyLabel">Mostrar cifras</span>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Ingresos del mes</div>
+      <div class="kpi-val grn" id="k1"><span class="masked">**,***</span></div>
+      <div class="kpi-delta up" id="d1">▲ 6.5% vs mayo</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Gastos del mes</div>
+      <div class="kpi-val red" id="k2"><span class="masked">*,***</span></div>
+      <div class="kpi-delta dn" id="d2">▲ 2.1% vs mayo</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Tax Reserve</div>
+      <div class="kpi-val blu" id="k3"><span class="masked">*,***</span></div>
+      <div class="kpi-delta up" id="d3">▲ $1,900 este mes</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Balance neto</div>
+      <div class="kpi-val dark" id="k4"><span class="masked">*,***</span></div>
+      <div class="kpi-delta up" id="d4">Disponible para invertir</div>
+    </div>
+  </div>
+
+  <!-- Row 2: Gastos + Alertas -->
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">Gastos por categoría</div>
+      <div class="bar-row">
+        <span class="bar-lbl">Payroll</span>
+        <div class="bar-bg"><div class="bar-fill" style="width:72%;background:#185FA5"></div></div>
+        <span class="bar-amt" id="b1"><span class="masked">*,***</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-lbl">Seguros</span>
+        <div class="bar-bg"><div class="bar-fill" style="width:18%;background:#378ADD"></div></div>
+        <span class="bar-amt" id="b2"><span class="masked">***</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-lbl">Auto / Lease</span>
+        <div class="bar-bg"><div class="bar-fill" style="width:14%;background:#85B7EB"></div></div>
+        <span class="bar-amt" id="b3"><span class="masked">***</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-lbl">Software</span>
+        <div class="bar-bg"><div class="bar-fill" style="width:9%;background:#B5D4F4"></div></div>
+        <span class="bar-amt" id="b4"><span class="masked">***</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-lbl">Otros</span>
+        <div class="bar-bg"><div class="bar-fill" style="width:7%;background:#dde9f7"></div></div>
+        <span class="bar-amt" id="b5"><span class="masked">***</span></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Alertas y recordatorios</div>
+      <div class="alert-item">
+        <div class="dot dot-warn"></div>
+        <div>
+          <div class="alert-text">Trimestral estimado — vence ago 15</div>
+          <div class="alert-sub">Monto estimado: <span id="a1"><span class="masked">*,***</span></span></div>
+        </div>
+      </div>
+      <div class="alert-item">
+        <div class="dot dot-ok"></div>
+        <div>
+          <div class="alert-text">PAL disponible en Schwab</div>
+          <div class="alert-sub"><span id="a2"><span class="masked">**,***</span></span> sin tributar</div>
+        </div>
+      </div>
+      <div class="alert-item">
+        <div class="dot dot-red"></div>
+        <div>
+          <div class="alert-text">Póliza malpractice — vence oct 1</div>
+          <div class="alert-sub">Renovar antes del 15 sep</div>
+        </div>
+      </div>
+      <div class="alert-item">
+        <div class="dot dot-blu"></div>
+        <div>
+          <div class="alert-text">Decreto — renovación programada</div>
+          <div class="alert-sub">Próxima fecha: enero 2027</div>
+        </div>
+      </div>
+      <div class="alert-item">
+        <div class="dot dot-ok"></div>
+        <div>
+          <div class="alert-text">Pago WCV recibido — jun 1</div>
+          <div class="alert-sub">Próximo: jul 1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Schwab + Tax Reserve + Gestoría -->
+  <div class="row3">
+    <div class="card">
+      <div class="card-title">Schwab — Inversiones</div>
+      <div class="schwab-row"><span class="schwab-lbl">Balance total</span><span class="schwab-val blu" id="s1"><span class="masked">**,***</span></span></div>
+      <div class="schwab-row"><span class="schwab-lbl">Rendimiento YTD</span><span class="schwab-val grn" id="s2"><span class="masked">*,***</span></span></div>
+      <div class="schwab-row"><span class="schwab-lbl">PAL disponible (0%)</span><span class="schwab-val grn" id="s3"><span class="masked">**,***</span></span></div>
+      <div class="schwab-row"><span class="schwab-lbl">Margen utilizado</span><span class="schwab-val">$0</span></div>
+      <div class="schwab-row"><span class="schwab-lbl">Ganancia de capital</span><span class="schwab-val" style="color:#888;font-size:11px">0% bajo decreto</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tax Reserve — Hacienda</div>
+      <div class="tax-arc-wrap">
+        <div class="tax-pct" id="tr1"><span class="masked">**%</span></div>
+        <div class="tax-sub">del objetivo trimestral acumulado</div>
+      </div>
+      <div class="reserve-bar-bg"><div class="reserve-bar-fill" id="reserveBar" style="width:0%"></div></div>
+      <div class="tax-rows">
+        <div class="schwab-row"><span class="schwab-lbl">Acumulado</span><span class="schwab-val blu" id="tr2"><span class="masked">*,***</span></span></div>
+        <div class="schwab-row"><span class="schwab-lbl">Objetivo trim.</span><span class="schwab-val" id="tr3"><span class="masked">**,***</span></span></div>
+        <div class="schwab-row"><span class="schwab-lbl">Diferencia</span><span class="schwab-val grn" id="tr4"><span class="masked">*,***</span></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Estado de gestoría</div>
+      <div class="gest-grid">
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>Dept. Estado</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>EIN / IRS</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>SURI / Hacienda</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>CRIM</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>NPI Tipo 2</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#1D9E75">✓</span>Triple-S</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#EF9F27">⟳</span>MCS</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#EF9F27">⟳</span>MMM</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#E24B4A">○</span>Humana</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#E24B4A">○</span>First Medical</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#E24B4A">○</span>Plan Vital</div>
+        <div class="gest-item"><span class="gest-icon" style="color:#888">—</span>Patente Mun.</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:10px;font-size:10px;color:#888">
+        <span><span style="color:#1D9E75">✓</span> Completado</span>
+        <span><span style="color:#EF9F27">⟳</span> En proceso</span>
+        <span><span style="color:#E24B4A">○</span> Pendiente</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    West Capital Ventures LLC &nbsp;·&nbsp; EIN 66-1134162 &nbsp;·&nbsp; joel@westcapitalventuresllc.com &nbsp;·&nbsp; westcapitalventuresllc.com
+  </div>
+</div>
+
+<script>
+var visible = false;
+
+var data = {
+  k1: '$20,340', k2: '$8,400', k3: '$7,800', k4: '$4,140',
+  b1: '$6,050', b2: '$542', b3: '$454', b4: '$210', b5: '$344',
+  a1: '$3,200', a2: '$18,000',
+  s1: '$45,200', s2: '+$2,800', s3: '$18,000',
+  tr1: '78%', tr2: '$7,800', tr3: '$10,000', tr4: '+$2,200'
+};
+
+var masked = {
+  k1: '<span class="masked">**,***</span>',
+  k2: '<span class="masked">*,***</span>',
+  k3: '<span class="masked">*,***</span>',
+  k4: '<span class="masked">*,***</span>',
+  b1: '<span class="masked">*,***</span>',
+  b2: '<span class="masked">***</span>',
+  b3: '<span class="masked">***</span>',
+  b4: '<span class="masked">***</span>',
+  b5: '<span class="masked">***</span>',
+  a1: '<span class="masked">*,***</span>',
+  a2: '<span class="masked">**,***</span>',
+  s1: '<span class="masked">**,***</span>',
+  s2: '<span class="masked">*,***</span>',
+  s3: '<span class="masked">**,***</span>',
+  tr1: '<span class="masked">**%</span>',
+  tr2: '<span class="masked">*,***</span>',
+  tr3: '<span class="masked">**,***</span>',
+  tr4: '<span class="masked">*,***</span>'
+};
+
+function togglePrivacy() {
+  visible = !visible;
+  var ids = Object.keys(data);
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = visible ? data[id] : masked[id];
+  });
+  document.getElementById('reserveBar').style.width = visible ? '78%' : '0%';
+  var label = document.getElementById('privacyLabel');
+  var icon = document.getElementById('eyeIcon');
+  if (visible) {
+    label.textContent = 'Ocultar cifras';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    label.textContent = 'Mostrar cifras';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+</script>
+</body>
+</html>
