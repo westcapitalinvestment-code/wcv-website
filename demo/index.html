@@ -111,15 +111,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 </nav>
 
 <div class="subbar">
-  <div class="stab active">Resumen</div>
-  <div class="stab">Ingresos</div>
-  <div class="stab">Gastos</div>
-  <div class="stab">Tax Reserve</div>
-  <div class="stab">Inversiones</div>
-  <div class="stab">Gestoría</div>
+  <div class="stab active" onclick="showTab('resumen',this)">Resumen</div>
+  <div class="stab" onclick="showTab('ingresos',this)">Ingresos</div>
+  <div class="stab" onclick="showTab('gastos',this)">Gastos</div>
+  <div class="stab" onclick="showTab('taxreserve',this)">Tax Reserve</div>
+  <div class="stab" onclick="showTab('inversiones',this)">Inversiones</div>
+  <div class="stab" onclick="showTab('nomina',this)">Nómina</div>
+  <div class="stab" onclick="showTab('gestoria',this)">Gestoría</div>
 </div>
 
-<div class="main">
+<div id="tab-resumen" class="tab-content"><div class="main">
   <div class="greeting">Buen día, Dr. Del Pueblo</div>
   <div class="subgreeting">Resumen financiero — junio 2026 &nbsp;·&nbsp; Actualizado hoy a las 8:14 AM</div>
 
@@ -354,6 +355,125 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     West Capital Ventures LLC &nbsp;·&nbsp; EIN 66-1134162 &nbsp;·&nbsp; joel@westcapitalventuresllc.com &nbsp;·&nbsp; westcapitalventuresllc.com
   </div>
 </div>
+</div><!-- end tab-resumen -->
+
+<!-- NOMINA TAB -->
+<div id="tab-nomina" class="tab-content" style="display:none">
+<div class="main">
+  <div class="greeting">Nómina — Semana del 9 al 13 jun 2026</div>
+  <div class="subgreeting">Aprobación de horas &nbsp;·&nbsp; 4 empleados activos</div>
+
+  <div style="display:flex;gap:10px;margin-bottom:16px;">
+    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Total horas</div>
+      <div style="font-size:22px;font-weight:600;color:#1F3864">156 hrs</div>
+    </div>
+    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Overtime</div>
+      <div style="font-size:22px;font-weight:600;color:#EF9F27">8 hrs</div>
+    </div>
+    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Pendientes aprobación</div>
+      <div style="font-size:22px;font-weight:600;color:#E24B4A">2</div>
+    </div>
+    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Estimado nómina</div>
+      <div style="font-size:22px;font-weight:600;color:#1F3864" id="nom1"><span class="masked">*,***</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;background:#fafafa;border-bottom:1px solid #f0f0f0;padding:10px 16px;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;">
+      <div>Empleado</div>
+      <div style="text-align:center">Reg. hrs</div>
+      <div style="text-align:center">OT hrs</div>
+      <div style="text-align:center">Total</div>
+      <div style="text-align:center">Estatus</div>
+      <div style="text-align:center">Acción</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a">María González</div>
+        <div style="font-size:11px;color:#aaa">Recepcionista</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#555">40</div>
+      <div style="text-align:center;font-size:13px;color:#555">0</div>
+      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">40</div>
+      <div style="text-align:center"><span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-weight:500;">Auto ✓</span></div>
+      <div style="text-align:center;font-size:12px;color:#aaa">—</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Carlos Ruiz</div>
+        <div style="font-size:11px;color:#aaa">Codificador médico</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#555">40</div>
+      <div style="text-align:center;font-size:13px;color:#555">0</div>
+      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">40</div>
+      <div style="text-align:center"><span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-weight:500;">Auto ✓</span></div>
+      <div style="text-align:center;font-size:12px;color:#aaa">—</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;background:#fffdf5;">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Ana Pérez</div>
+        <div style="font-size:11px;color:#aaa">Asistente médico</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#555">40</div>
+      <div style="text-align:center;font-size:13px;font-weight:600;color:#EF9F27">6</div>
+      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">46</div>
+      <div style="text-align:center"><span style="font-size:11px;background:#faeeda;color:#854F0B;padding:2px 8px;border-radius:10px;font-weight:500;">OT — revisar</span></div>
+      <div style="text-align:center;display:flex;gap:4px;justify-content:center;">
+        <button onclick="aprobar(this,'ana')" style="font-size:11px;padding:4px 8px;background:#e1f5ee;color:#0F6E56;border:1px solid #9FE1CB;border-radius:6px;cursor:pointer;">✓ Aprobar</button>
+        <button onclick="rechazar(this,'ana')" style="font-size:11px;padding:4px 8px;background:#fcebeb;color:#A32D2D;border:1px solid #F7C1C1;border-radius:6px;cursor:pointer;">✕</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;align-items:center;background:#fffaf9;">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Luis Torres</div>
+        <div style="font-size:11px;color:#aaa">Facturador</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#555">28</div>
+      <div style="text-align:center;font-size:13px;font-weight:600;color:#EF9F27">2</div>
+      <div style="text-align:center;font-size:13px;font-weight:500;color:#E24B4A">30 ⚠</div>
+      <div style="text-align:center"><span style="font-size:11px;background:#fcebeb;color:#A32D2D;padding:2px 8px;border-radius:10px;font-weight:500;">Discrepancia</span></div>
+      <div style="text-align:center;display:flex;gap:4px;justify-content:center;">
+        <button onclick="aprobar(this,'luis')" style="font-size:11px;padding:4px 8px;background:#e1f5ee;color:#0F6E56;border:1px solid #9FE1CB;border-radius:6px;cursor:pointer;">✓ Aprobar</button>
+        <button onclick="rechazar(this,'luis')" style="font-size:11px;padding:4px 8px;background:#fcebeb;color:#A32D2D;border:1px solid #F7C1C1;border-radius:6px;cursor:pointer;">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px;padding:10px 14px;background:#e6f1fb;border-radius:8px;border-left:3px solid #185FA5;font-size:12px;color:#185FA5;">
+    <strong>Sistema automático:</strong> Las horas regulares sin discrepancia se aprueban y procesan en Gusto automáticamente. Solo las horas con overtime o discrepancia requieren tu aprobación.
+  </div>
+
+  <div class="portal-footer">
+    West Capital Ventures LLC &nbsp;·&nbsp; EIN 66-1134162 &nbsp;·&nbsp; joel@westcapitalventuresllc.com
+  </div>
+</div>
+</div>
+
+<!-- PLACEHOLDER TABS -->
+<div id="tab-ingresos" class="tab-content" style="display:none">
+  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Ingresos — próximamente</div></div>
+</div>
+<div id="tab-gastos" class="tab-content" style="display:none">
+  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Gastos — próximamente</div></div>
+</div>
+<div id="tab-taxreserve" class="tab-content" style="display:none">
+  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Tax Reserve — próximamente</div></div>
+</div>
+<div id="tab-inversiones" class="tab-content" style="display:none">
+  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Inversiones / Schwab — próximamente</div></div>
+</div>
+<div id="tab-gestoria" class="tab-content" style="display:none">
+  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Gestoría — próximamente</div></div>
+</div>
+
 
 <script>
 var visible = false;
@@ -386,6 +506,43 @@ var masked = {
   tr3: '<span class="masked">**,***</span>',
   tr4: '<span class="masked">*,***</span>'
 };
+
+
+function showTab(name, el) {
+  document.querySelectorAll('.tab-content').forEach(function(t){ t.style.display='none'; });
+  document.querySelectorAll('.stab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('tab-'+name).style.display='block';
+  el.classList.add('active');
+}
+
+function aprobar(btn, emp) {
+  var row = btn.closest('div[style*="grid"]');
+  var statusCell = row.querySelectorAll('div')[4];
+  var actionCell = row.querySelectorAll('div')[5];
+  statusCell.innerHTML = '<span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-weight:500;">Aprobado ✓</span>';
+  actionCell.innerHTML = '<span style="font-size:12px;color:#aaa;">—</span>';
+  row.style.background = '#fff';
+  checkPending();
+}
+
+function rechazar(btn, emp) {
+  var row = btn.closest('div[style*="grid"]');
+  var statusCell = row.querySelectorAll('div')[4];
+  var actionCell = row.querySelectorAll('div')[5];
+  statusCell.innerHTML = '<span style="font-size:11px;background:#fcebeb;color:#A32D2D;padding:2px 8px;border-radius:10px;font-weight:500;">Rechazado ✕</span>';
+  actionCell.innerHTML = '<span style="font-size:12px;color:#aaa;">—</span>';
+  row.style.background = '#fff';
+  checkPending();
+}
+
+function checkPending() {
+  var pending = document.querySelectorAll('#tab-nomina button').length / 2;
+  var kpi = document.querySelectorAll('#tab-nomina .main > div:first-of-type > div')[2];
+  if (kpi) {
+    var num = kpi.querySelector('div:last-child');
+    if (num) num.textContent = Math.max(0, pending) + '';
+  }
+}
 
 function togglePrivacy() {
   visible = !visible;
