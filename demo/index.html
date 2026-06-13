@@ -1537,5 +1537,463 @@ document.getElementById('modal-overlay').addEventListener('click', function(e) {
 });
 </script>
 
+
+<!-- ═══════════════════════════════════════════════
+     VICTOR — CHAT WIDGET
+════════════════════════════════════════════════ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&display=swap');
+
+#victor-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #040810;
+  border: 1.5px solid #0ee6b4;
+  cursor: pointer;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  box-shadow: 0 0 0 0 rgba(14,230,180,0.4);
+  animation: victor-ring 3s ease-in-out infinite;
+}
+#victor-btn:hover { transform: scale(1.08); }
+@keyframes victor-ring {
+  0%,100% { box-shadow: 0 0 0 0 rgba(14,230,180,0.35); }
+  50% { box-shadow: 0 0 0 10px rgba(14,230,180,0); }
+}
+.victor-online-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  background: #1D9E75;
+  border-radius: 50%;
+  border: 2px solid #040810;
+  animation: vdot 2s ease-in-out infinite;
+}
+@keyframes vdot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+#victor-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 360px;
+  height: 520px;
+  background: #040810;
+  border: 1px solid #0ee6b4;
+  border-radius: 16px;
+  z-index: 1999;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#victor-panel.open { display: flex; }
+
+/* Header */
+.v-header {
+  background: #0b1120;
+  border-bottom: 1px solid #1a2640;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.v-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #040810;
+  border: 1.5px solid #0ee6b4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.v-header-info { flex: 1; }
+.v-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0ee6b4;
+  letter-spacing: 3px;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.v-status {
+  font-size: 11px;
+  color: #1D9E75;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.v-status-dot {
+  width: 6px; height: 6px;
+  background: #1D9E75;
+  border-radius: 50%;
+  animation: vdot 2s ease-in-out infinite;
+}
+.v-close {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: #4e5a6e;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+.v-close:hover { color: #0ee6b4; }
+
+/* Messages */
+.v-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #1a2640 transparent;
+}
+.v-msg {
+  max-width: 88%;
+  font-size: 12.5px;
+  line-height: 1.5;
+  border-radius: 10px;
+  padding: 9px 12px;
+  animation: vmsg 0.2s ease-out;
+}
+@keyframes vmsg { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.v-msg.victor {
+  background: #0b1120;
+  border: 1px solid #1a2640;
+  color: #c8d4e8;
+  border-bottom-left-radius: 2px;
+  align-self: flex-start;
+}
+.v-msg.victor strong { color: #0ee6b4; }
+.v-msg.user {
+  background: #1F3864;
+  color: #e0eaff;
+  border-bottom-right-radius: 2px;
+  align-self: flex-end;
+}
+.v-msg-time {
+  font-size: 10px;
+  color: #2a3a50;
+  margin-top: 2px;
+  font-family: 'DM Mono', monospace;
+}
+.v-msg-time.left { text-align: left; padding-left: 2px; }
+.v-msg-time.right { text-align: right; padding-right: 2px; }
+
+/* Typing indicator */
+.v-typing {
+  display: none;
+  align-self: flex-start;
+  background: #0b1120;
+  border: 1px solid #1a2640;
+  border-radius: 10px;
+  border-bottom-left-radius: 2px;
+  padding: 10px 14px;
+}
+.v-typing span {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #0ee6b4;
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: vtype 1.2s ease-in-out infinite;
+}
+.v-typing span:nth-child(2) { animation-delay: 0.2s; }
+.v-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes vtype { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-5px);opacity:1} }
+
+/* Input */
+.v-input-area {
+  border-top: 1px solid #1a2640;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  background: #0b1120;
+  flex-shrink: 0;
+}
+.v-input {
+  flex: 1;
+  background: #040810;
+  border: 1px solid #1a2640;
+  border-radius: 8px;
+  color: #c8d4e8;
+  font-size: 12.5px;
+  padding: 8px 10px;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  max-height: 80px;
+  line-height: 1.4;
+}
+.v-input:focus { border-color: #0ee6b4; }
+.v-input::placeholder { color: #2a3a50; }
+.v-send {
+  background: #0ee6b4;
+  border: none;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+}
+.v-send:hover { background: #0bc99e; }
+.v-send:active { transform: scale(0.95); }
+.v-send svg { width: 15px; height: 15px; }
+
+/* Quick prompts */
+.v-quick {
+  padding: 0 14px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.v-qbtn {
+  font-size: 11px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid #1a2640;
+  border-radius: 20px;
+  color: #4e5a6e;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.v-qbtn:hover { border-color: #0ee6b4; color: #0ee6b4; }
+</style>
+
+<!-- Botón flotante -->
+<div id="victor-btn" onclick="toggleVictor()" title="Hablar con VICTOR">
+  <svg viewBox="0 0 48 48" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="6" width="32" height="30" rx="5" fill="#0b1120" stroke="#0ee6b4" stroke-width="1"/>
+    <rect x="14" y="14" width="20" height="10" rx="2" fill="#040810" stroke="#0ee6b4" stroke-width="0.8"/>
+    <rect x="17" y="17" width="6" height="4" rx="1" fill="#0ee6b4" opacity="0.8"/>
+    <rect x="25" y="17" width="6" height="4" rx="1" fill="#0ee6b4" opacity="0.8"/>
+    <rect x="16" y="28" width="16" height="4" rx="1" fill="#0b1120" stroke="#1a2640" stroke-width="0.5"/>
+    <line x1="19" y1="30" x2="29" y2="30" stroke="#1a2640" stroke-width="0.5"/>
+    <line x1="22" y1="28" x2="22" y2="32" stroke="#1a2640" stroke-width="0.5"/>
+    <line x1="26" y1="28" x2="26" y2="32" stroke="#1a2640" stroke-width="0.5"/>
+    <polygon points="24,26 21,30 24,33 27,30" fill="#0ee6b4" opacity="0.9" transform="scale(0.5) translate(24,22)"/>
+    <line x1="20" y1="36" x2="20" y2="40" stroke="#1a2640" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="28" y1="36" x2="28" y2="40" stroke="#1a2640" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="16" y1="40" x2="32" y2="40" stroke="#1a2640" stroke-width="1" stroke-linecap="round"/>
+  </svg>
+  <div class="victor-online-dot"></div>
+</div>
+
+<!-- Panel de chat -->
+<div id="victor-panel">
+
+  <!-- Header -->
+  <div class="v-header">
+    <div class="v-avatar">
+      <svg viewBox="0 0 48 48" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="4" width="32" height="30" rx="5" fill="#0b1120" stroke="#0ee6b4" stroke-width="1"/>
+        <rect x="13" y="12" width="22" height="10" rx="2" fill="#040810" stroke="#0ee6b4" stroke-width="0.8"/>
+        <rect x="16" y="15" width="6" height="4" rx="1" fill="#0ee6b4" opacity="0.9"/>
+        <rect x="26" y="15" width="6" height="4" rx="1" fill="#0ee6b4" opacity="0.9"/>
+        <rect x="15" y="26" width="18" height="4" rx="1" fill="#080e1a" stroke="#1a2640" stroke-width="0.5"/>
+        <line x1="19" y1="28" x2="29" y2="28" stroke="#1a2640" stroke-width="0.4"/>
+        <line x1="22" y1="26" x2="22" y2="30" stroke="#1a2640" stroke-width="0.4"/>
+        <line x1="26" y1="26" x2="26" y2="30" stroke="#1a2640" stroke-width="0.4"/>
+        <line x1="18" y1="34" x2="18" y2="38" stroke="#1a2640" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="30" y1="34" x2="30" y2="38" stroke="#1a2640" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="38" x2="34" y2="38" stroke="#1a2640" stroke-width="1" stroke-linecap="round"/>
+        <rect x="20" y="4" width="8" height="3" rx="1" fill="#0ee6b4" opacity="0.2"/>
+        <rect x="8" y="4" width="6" height="1.5" rx="0.5" fill="#0ee6b4" opacity="0.5"/>
+        <rect x="8" y="4" width="1.5" height="6" rx="0.5" fill="#0ee6b4" opacity="0.5"/>
+        <rect x="34" y="4" width="6" height="1.5" rx="0.5" fill="#0ee6b4" opacity="0.5"/>
+        <rect x="38.5" y="4" width="1.5" height="6" rx="0.5" fill="#0ee6b4" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="v-header-info">
+      <div class="v-name">VICTOR</div>
+      <div class="v-status"><span class="v-status-dot"></span>En línea — CFO Virtual WCV</div>
+    </div>
+    <button class="v-close" onclick="toggleVictor()">×</button>
+  </div>
+
+  <!-- Messages -->
+  <div class="v-messages" id="v-messages">
+    <div class="v-msg victor">
+      Buenos días, Dr. Del Pueblo.<br><br>
+      Soy <strong>VICTOR</strong> — su CFO Virtual. Tengo acceso a su información financiera en tiempo real. ¿En qué le puedo asistir hoy?
+    </div>
+    <div class="v-msg-time left">VICTOR · ahora</div>
+  </div>
+
+  <!-- Typing -->
+  <div class="v-typing" id="v-typing">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- Quick prompts -->
+  <div class="v-quick" id="v-quick">
+    <button class="v-qbtn" onclick="vQuick(this)">¿Cuánto puedo invertir?</button>
+    <button class="v-qbtn" onclick="vQuick(this)">Estado del decreto</button>
+    <button class="v-qbtn" onclick="vQuick(this)">Tax reserve</button>
+    <button class="v-qbtn" onclick="vQuick(this)">Bienes raíces</button>
+    <button class="v-qbtn" onclick="vQuick(this)">Carros / depreciación</button>
+  </div>
+
+  <!-- Input -->
+  <div class="v-input-area">
+    <textarea class="v-input" id="v-input" rows="1" placeholder="Escríbale a VICTOR..." onkeydown="vKeydown(event)" oninput="vAutoResize(this)"></textarea>
+    <button class="v-send" onclick="vSend()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#040810" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2" fill="#040810"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<script>
+var victorOpen = false;
+
+function toggleVictor() {
+  victorOpen = !victorOpen;
+  var panel = document.getElementById('victor-panel');
+  if (victorOpen) {
+    panel.classList.add('open');
+    setTimeout(function(){ document.getElementById('v-input').focus(); }, 200);
+  } else {
+    panel.classList.remove('open');
+  }
+}
+
+function vAutoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+function vKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); vSend(); }
+}
+
+function vQuick(btn) {
+  document.getElementById('v-input').value = btn.textContent;
+  vSend();
+}
+
+function vNow() {
+  return new Date().toLocaleTimeString('es-PR', {hour:'2-digit', minute:'2-digit'});
+}
+
+function vAddMsg(text, sender) {
+  var msgs = document.getElementById('v-messages');
+  var msg = document.createElement('div');
+  msg.className = 'v-msg ' + sender;
+  msg.innerHTML = text;
+  msgs.appendChild(msg);
+  var time = document.createElement('div');
+  time.className = 'v-msg-time ' + (sender === 'victor' ? 'left' : 'right');
+  time.textContent = (sender === 'victor' ? 'VICTOR' : 'Dr. Del Pueblo') + ' · ' + vNow();
+  msgs.appendChild(time);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function vThink(cb) {
+  var typing = document.getElementById('v-typing');
+  typing.style.display = 'flex';
+  var msgs = document.getElementById('v-messages');
+  msgs.scrollTop = msgs.scrollHeight;
+  setTimeout(function() {
+    typing.style.display = 'none';
+    cb();
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1400 + Math.random() * 600);
+}
+
+var vResponses = [
+  {
+    keys: ['invertir','inversión','disponible','balance'],
+    r: 'Su balance neto disponible este mes es <strong style="color:#0ee6b4;">$4,140</strong>.<br><br>Recomiendo transferir entre $2,000–$3,500 a Schwab, manteniendo un colchón operacional de al menos $600. ¿Desea proceder con la transferencia ahora?'
+  },
+  {
+    keys: ['decreto','4%','ases','ley 29'],
+    r: 'Su decreto médico Ley 29 está <strong style="color:#1D9E75;">activo</strong> — tasa del 4% vigente hasta <strong>febrero 2032</strong>.<br><br>Próxima acción: Anejo 2 a ASES en diciembre 2026. WCV le enviará recordatorio en noviembre. Las 180 horas comunitarias 2025 están certificadas ✓'
+  },
+  {
+    keys: ['tax','reserve','hacienda','trimestral'],
+    r: 'Tax Reserve acumulado: <strong style="color:#185FA5;">$7,800</strong> — 78% del objetivo trimestral de $10,000.<br><br>Próximo estimado vence <strong>agosto 15</strong>. Monto estimado: $3,200. Tiene $2,200 de margen positivo sobre el objetivo. Sin acción urgente.'
+  },
+  {
+    keys: ['bienes raíces','propiedad','inmueble','renta','alquiler'],
+    r: 'Bienes raíces es uno de los vehículos más eficientes bajo su estructura actual.<br><br>Con el PAL de Schwab disponible (<strong style="color:#1D9E75;">$18,000 al 0%</strong>) puede usar margen como down payment sin tributar. Bajo decreto, las rentas netas tributan al 4%. ¿Quiere analizar un escenario específico?'
+  },
+  {
+    keys: ['carro','auto','vehículo','bmw','porsche','mercedes','ferrari','lamborghini','deprecia'],
+    r: 'Excelente tema. Un vehículo bajo la LLC puede depreciarse agresivamente.<br><br>Sección 179 permite depreciar hasta <strong>$28,900</strong> en el año de compra (2026). Si el uso empresarial supera el 50%, puede deducir el 100% con bonus depreciation. Los vehículos de lujo tienen límites por año — un SUV +6,000 lbs no tiene ese límite. ¿Está evaluando algún modelo específico?'
+  },
+  {
+    keys: ['schwab','inversión','portafolio','etf','dividendo','acciones'],
+    r: 'Su cuenta Schwab refleja:<br><strong style="color:#185FA5;">Balance: $45,200</strong> · YTD: <strong style="color:#1D9E75;">+$2,800</strong><br>PAL disponible: $18,000 al 0% de interés.<br><br>Con el portafolio moderado actual (SCHD/VNQ/LQD), el yield proyectado es ~5.2% anual. ¿Quiere ver la proyección de retiro actualizada?'
+  },
+  {
+    keys: ['nómina','empleado','gusto','payroll','salario'],
+    r: 'Resumen de nómina esta semana:<br>• 4 empleados activos · 156 hrs regulares<br>• 8 hrs de overtime pendientes de aprobación<br>• Estimado de nómina: <strong>$4,850</strong><br><br>Ana Pérez y Luis Torres tienen horas que requieren su aprobación en la pestaña Nómina.'
+  },
+  {
+    keys: ['ingeniero','construcción','obra','proyecto','desarrollo'],
+    r: 'Proyectos de construcción e ingeniería tienen un tratamiento fiscal particular bajo PR.<br><br>Pueden estructurarse como LLC separada del consultorio para aislar riesgo. Los costos de desarrollo son depreciables bajo MACRS. Si involucra equity con otros profesionales, podemos estructurar la capitalización para proteger su decreto médico. ¿Tiene algún proyecto en mente?'
+  },
+  {
+    keys: ['hello','hola','buenos','buenas','qué tal','cómo'],
+    r: 'Listo para asistirle, Dr. Del Pueblo.<br><br>Resumen rápido de hoy: balance <strong style="color:#0ee6b4;">$4,140</strong> disponible · decreto <strong style="color:#1D9E75;">activo</strong> · Schwab <strong style="color:#185FA5;">$45,200</strong> · 2 aprobaciones de nómina pendientes.<br><br>¿Por dónde empezamos?'
+  }
+];
+
+function vGetResponse(input) {
+  var lower = input.toLowerCase();
+  for (var i = 0; i < vResponses.length; i++) {
+    var keys = vResponses[i].keys;
+    for (var j = 0; j < keys.length; j++) {
+      if (lower.indexOf(keys[j]) !== -1) return vResponses[i].r;
+    }
+  }
+  return 'Entendido. Para darle una respuesta precisa sobre "<strong>' + input + '</strong>" necesito revisar los datos más recientes de su cuenta.<br><br>En la versión completa del sistema, VICTOR consulta QBO, Mercury y Schwab en tiempo real. ¿Quiere que lo escalemos a su equipo WCV?';
+}
+
+function vSend() {
+  var input = document.getElementById('v-input');
+  var text = input.value.trim();
+  if (!text) return;
+  vAddMsg(text, 'user');
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('v-quick').style.display = 'none';
+  var response = vGetResponse(text);
+  vThink(function() { vAddMsg(response, 'victor'); });
+}
+</script>
+
 </body>
 </html>
