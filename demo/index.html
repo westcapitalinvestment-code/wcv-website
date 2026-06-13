@@ -364,103 +364,357 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <div id="tab-nomina" class="tab-content" style="display:none">
 <div class="main">
   <div class="greeting">Nómina — Semana del 9 al 13 jun 2026</div>
-  <div class="subgreeting">Aprobación de horas &nbsp;·&nbsp; 4 empleados activos</div>
+  <div class="subgreeting">Aprobación de horas &nbsp;·&nbsp; 5 empleados activos</div>
 
-  <div style="display:flex;gap:10px;margin-bottom:16px;">
-    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+  <!-- Victor tip -->
+  <div style="background:#040810;border:1px solid #1a2640;border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#040810;border:1px solid #0ee6b4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-family:'DM Mono',monospace;color:#0ee6b4;font-weight:700;">V</div>
+    <div style="font-size:12px;color:#8b95a9;line-height:1.5;"><strong style="color:#0ee6b4;">VICTOR detectó 2 situaciones:</strong> Ana Pérez tiene overtime por break no ponchado el martes · Luis Torres tiene 2 días sin registro por apagón. Recomiendo usar Ajustar e Incidencia respectivamente.</div>
+  </div>
+
+  <!-- KPIs -->
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:120px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
       <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Total horas</div>
       <div style="font-size:22px;font-weight:600;color:#1F3864">156 hrs</div>
     </div>
-    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
-      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Overtime</div>
-      <div style="font-size:22px;font-weight:600;color:#EF9F27">8 hrs</div>
+    <div style="flex:1;min-width:120px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Overtime pendiente</div>
+      <div style="font-size:22px;font-weight:600;color:#EF9F27">8.5 hrs</div>
     </div>
-    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
-      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Pendientes aprobación</div>
+    <div style="flex:1;min-width:120px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Incidencias</div>
       <div style="font-size:22px;font-weight:600;color:#E24B4A">2</div>
     </div>
-    <div style="flex:1;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+    <div style="flex:1;min-width:120px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
       <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Estimado nómina</div>
       <div style="font-size:22px;font-weight:600;color:#1F3864" id="nom1"><span class="masked">*,***</span></div>
     </div>
   </div>
 
-  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;">
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;background:#fafafa;border-bottom:1px solid #f0f0f0;padding:10px 16px;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;">
-      <div>Empleado</div>
-      <div style="text-align:center">Reg. hrs</div>
-      <div style="text-align:center">OT hrs</div>
-      <div style="text-align:center">Total</div>
-      <div style="text-align:center">Estatus</div>
-      <div style="text-align:center">Acción</div>
+  <!-- Tabla empleados -->
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;margin-bottom:16px;">
+    <div style="background:#fafafa;border-bottom:1px solid #f0f0f0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-size:13px;font-weight:600;color:#1F3864;">Registros de la semana</div>
+      <div style="font-size:11px;color:#888;">3 requieren acción</div>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
-      <div>
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a">María González</div>
-        <div style="font-size:11px;color:#aaa">Recepcionista</div>
+    <!-- María González — OK -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#1D9E75;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;">MG</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#1a1a1a;">María González</div>
+          <div style="font-size:11px;color:#aaa;">Recepcionista · 40 hrs reg</div>
+        </div>
       </div>
-      <div style="text-align:center;font-size:13px;color:#555">40</div>
-      <div style="text-align:center;font-size:13px;color:#555">0</div>
-      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">40</div>
-      <div style="text-align:center"><span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-weight:500;">Auto ✓</span></div>
-      <div style="text-align:center;font-size:12px;color:#aaa">—</div>
+      <span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:3px 10px;border-radius:10px;font-weight:500;">Aprobado ✓</span>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
-      <div>
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Carlos Ruiz</div>
-        <div style="font-size:11px;color:#aaa">Codificador médico</div>
+    <!-- Carlos Ruiz — OK -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 16px;border-bottom:1px solid #f5f5f5;align-items:center;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#534AB7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;">CR</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#1a1a1a;">Carlos Ruiz</div>
+          <div style="font-size:11px;color:#aaa;">Codificador médico · 40 hrs reg</div>
+        </div>
       </div>
-      <div style="text-align:center;font-size:13px;color:#555">40</div>
-      <div style="text-align:center;font-size:13px;color:#555">0</div>
-      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">40</div>
-      <div style="text-align:center"><span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-weight:500;">Auto ✓</span></div>
-      <div style="text-align:center;font-size:12px;color:#aaa">—</div>
+      <span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:3px 10px;border-radius:10px;font-weight:500;">Aprobado ✓</span>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;border-bottom:1px solid #f5f5f5;align-items:center;background:#fffdf5;">
-      <div>
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Ana Pérez</div>
-        <div style="font-size:11px;color:#aaa">Asistente médico</div>
+    <!-- Ana Pérez — OT discrepancia -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 16px;border-bottom:1px solid #f5f5f5;align-items:start;background:#fffdf5;">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#534AB7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;margin-top:2px;">AP</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#1a1a1a;">Ana Pérez</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:6px;">Asistente médico</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-family:monospace;">40 hrs reg</span>
+            <span style="font-size:11px;background:#faeeda;color:#854F0B;padding:2px 8px;border-radius:10px;font-family:monospace;">8.5 hrs OT ⚠</span>
+          </div>
+          <div style="font-size:11px;color:#888;line-height:1.5;"><strong style="color:#EF9F27;">⚠ Discrepancia:</strong> Mar 10 jun — no ponchó break 12:00–12:30. Sistema registró 8.5 hrs continuas.</div>
+        </div>
       </div>
-      <div style="text-align:center;font-size:13px;color:#555">40</div>
-      <div style="text-align:center;font-size:13px;font-weight:600;color:#EF9F27">6</div>
-      <div style="text-align:center;font-size:13px;font-weight:500;color:#1a1a1a">46</div>
-      <div style="text-align:center"><span style="font-size:11px;background:#faeeda;color:#854F0B;padding:2px 8px;border-radius:10px;font-weight:500;">OT — revisar</span></div>
-      <div style="text-align:center;display:flex;gap:4px;justify-content:center;">
-        <button onclick="aprobar(this,'ana')" style="font-size:11px;padding:4px 8px;background:#e1f5ee;color:#0F6E56;border:1px solid #9FE1CB;border-radius:6px;cursor:pointer;">✓ Aprobar</button>
-        <button onclick="rechazar(this,'ana')" style="font-size:11px;padding:4px 8px;background:#fcebeb;color:#A32D2D;border:1px solid #F7C1C1;border-radius:6px;cursor:pointer;">✕</button>
+      <div style="display:flex;flex-direction:column;gap:5px;min-width:100px;">
+        <button onclick="nomAprobar('Ana Pérez')" style="font-size:11px;padding:6px 10px;background:#e1f5ee;color:#0F6E56;border:1px solid #b2e0ce;border-radius:6px;cursor:pointer;font-weight:500;">✓ Aprobar</button>
+        <button onclick="nomAjustar('Ana Pérez')" style="font-size:11px;padding:6px 10px;background:#faeeda;color:#854F0B;border:1px solid #f5d49a;border-radius:6px;cursor:pointer;font-weight:500;">✎ Ajustar</button>
+        <button onclick="nomRechazar('Ana Pérez')" style="font-size:11px;padding:6px 10px;background:#fcebeb;color:#A32D2D;border:1px solid #f5b8b8;border-radius:6px;cursor:pointer;font-weight:500;">✗ Rechazar</button>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 120px;padding:12px 16px;align-items:center;background:#fffaf9;">
-      <div>
-        <div style="font-size:13px;font-weight:500;color:#1a1a1a">Luis Torres</div>
-        <div style="font-size:11px;color:#aaa">Facturador</div>
+    <!-- Luis Torres — sin registro -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 16px;border-bottom:1px solid #f5f5f5;align-items:start;background:#fffaf9;">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;margin-top:2px;">LT</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#1a1a1a;">Luis Torres</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:6px;">Facturador</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:11px;background:#e1f5ee;color:#0F6E56;padding:2px 8px;border-radius:10px;font-family:monospace;">32 hrs reg</span>
+            <span style="font-size:11px;background:#fcebeb;color:#A32D2D;padding:2px 8px;border-radius:10px;font-family:monospace;">Lun–Mar sin registro ⚠</span>
+          </div>
+          <div style="font-size:11px;color:#888;line-height:1.5;"><strong style="color:#E24B4A;">⚠ Días sin registro:</strong> Lun 9 y Mar 10 jun — apagón en el sector. Empleado presente según calendario.</div>
+        </div>
       </div>
-      <div style="text-align:center;font-size:13px;color:#555">28</div>
-      <div style="text-align:center;font-size:13px;font-weight:600;color:#EF9F27">2</div>
-      <div style="text-align:center;font-size:13px;font-weight:500;color:#E24B4A">30 ⚠</div>
-      <div style="text-align:center"><span style="font-size:11px;background:#fcebeb;color:#A32D2D;padding:2px 8px;border-radius:10px;font-weight:500;">Discrepancia</span></div>
-      <div style="text-align:center;display:flex;gap:4px;justify-content:center;">
-        <button onclick="aprobar(this,'luis')" style="font-size:11px;padding:4px 8px;background:#e1f5ee;color:#0F6E56;border:1px solid #9FE1CB;border-radius:6px;cursor:pointer;">✓ Aprobar</button>
-        <button onclick="rechazar(this,'luis')" style="font-size:11px;padding:4px 8px;background:#fcebeb;color:#A32D2D;border:1px solid #F7C1C1;border-radius:6px;cursor:pointer;">✕</button>
+      <div style="display:flex;flex-direction:column;gap:5px;min-width:100px;">
+        <button onclick="nomIncidencia('Luis Torres')" style="font-size:11px;padding:6px 10px;background:#e8f1fb;color:#185FA5;border:1px solid #b8d4f5;border-radius:6px;cursor:pointer;font-weight:500;">⚡ Incidencia</button>
+        <button onclick="nomAjustar('Luis Torres')" style="font-size:11px;padding:6px 10px;background:#faeeda;color:#854F0B;border:1px solid #f5d49a;border-radius:6px;cursor:pointer;font-weight:500;">✎ Ajuste manual</button>
+      </div>
+    </div>
+
+    <!-- Pedro Colón -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 16px;align-items:center;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#A32D2D;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;">PC</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#1a1a1a;">Pedro Colón</div>
+          <div style="font-size:11px;color:#aaa;">Chofer · 18 hrs reg</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button onclick="nomAprobar('Pedro Colón')" style="font-size:11px;padding:6px 10px;background:#e1f5ee;color:#0F6E56;border:1px solid #b2e0ce;border-radius:6px;cursor:pointer;font-weight:500;">✓ Aprobar</button>
+        <button onclick="nomAjustar('Pedro Colón')" style="font-size:11px;padding:6px 10px;background:#faeeda;color:#854F0B;border:1px solid #f5d49a;border-radius:6px;cursor:pointer;font-weight:500;">✎ Ajustar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audit Trail -->
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;overflow:hidden;margin-bottom:16px;">
+    <div style="background:#fafafa;border-bottom:1px solid #f0f0f0;padding:12px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#1F3864;">Audit Trail</div>
+      <div style="font-size:11px;color:#888;">Historial de acciones — inmutable</div>
+    </div>
+    <div id="nom-audit">
+      <div style="display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid #f5f5f5;font-size:12px;">
+        <div style="font-family:monospace;color:#aaa;min-width:120px;flex-shrink:0;">Jun 11 · 2:34 PM</div>
+        <div style="width:22px;height:22px;border-radius:50%;background:#e8f1fb;color:#185FA5;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">✎</div>
+        <div style="color:#555;line-height:1.5;"><strong style="color:#1F3864;">María Santos</strong> — Ajuste de tiempo aprobado. Break mié corregido 12:00–12:30. Memo #WCV-2026-004 generado.</div>
+      </div>
+      <div style="display:flex;gap:10px;padding:10px 16px;font-size:12px;">
+        <div style="font-family:monospace;color:#aaa;min-width:120px;flex-shrink:0;">Jun 11 · 10:12 AM</div>
+        <div style="width:22px;height:22px;border-radius:50%;background:#e1f5ee;color:#0F6E56;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">✓</div>
+        <div style="color:#555;line-height:1.5;"><strong style="color:#1F3864;">María González</strong> — Nómina semana 9–13 jun aprobada. 40 hrs regulares.</div>
       </div>
     </div>
   </div>
 
   <div style="margin-top:10px;padding:10px 14px;background:#e6f1fb;border-radius:8px;border-left:3px solid #185FA5;font-size:12px;color:#185FA5;">
-    <strong>Sistema automático:</strong> Las horas regulares sin discrepancia se aprueban y procesan en Gusto automáticamente. Solo las horas con overtime o discrepancia requieren tu aprobación.
+    <strong>Sistema automático:</strong> Las horas sin discrepancia se aprueban y procesan en Gusto automáticamente. Solo overtime e incidencias requieren su aprobación.
   </div>
 
   <div class="portal-footer">
     West Capital Ventures LLC &nbsp;·&nbsp; EIN 66-1134162 &nbsp;·&nbsp; joel@westcapitalventuresllc.com
   </div>
 </div>
+
+<!-- MODAL AJUSTE -->
+<div id="nom-modal-ajuste" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:3000;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:14px;width:100%;max-width:460px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="background:#1F3864;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="color:#fff;font-size:15px;font-weight:600;">Ajuste de Tiempo</div>
+        <div style="color:rgba(255,255,255,0.5);font-size:11px;margin-top:2px;" id="nom-ajuste-sub">Corrección de registro</div>
+      </div>
+      <button onclick="nomCerrarModal('nom-modal-ajuste')" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:18px;cursor:pointer;">×</button>
+    </div>
+    <div style="padding:20px;">
+      <!-- Punch original -->
+      <div style="background:#f5f5f3;border-radius:8px;padding:12px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;">Registro original del sistema</div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e8e8e8;"><span style="color:#888;">Entrada</span><span style="font-family:monospace;font-weight:500;">7:58 AM</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e8e8e8;"><span style="color:#888;">Break salida</span><span style="font-family:monospace;font-weight:500;color:#EF9F27;">— no registrado ⚠</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e8e8e8;"><span style="color:#888;">Break entrada</span><span style="font-family:monospace;font-weight:500;color:#EF9F27;">— no registrado ⚠</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;"><span style="color:#888;">Salida</span><span style="font-family:monospace;font-weight:500;">4:28 PM</span></div>
+      </div>
+      <!-- Corrección -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Break — salida</div>
+          <input type="time" id="nom-break-out" value="12:00" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:13px;color:#1a1a1a;outline:none;">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Break — entrada</div>
+          <input type="time" id="nom-break-in" value="12:30" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:13px;color:#1a1a1a;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Razón del ajuste</div>
+        <select id="nom-ajuste-razon" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:13px;color:#1a1a1a;outline:none;">
+          <option>Empleado no ponchó break</option>
+          <option>Error del sistema</option>
+          <option>Corrección supervisora</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Nota del supervisor (requerida)</div>
+        <textarea id="nom-ajuste-nota" rows="3" placeholder="Ej: Empleado verbalizó que tomó su break de 12:00 a 12:30 pero olvidó ponchar..." style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:12px;color:#1a1a1a;outline:none;resize:vertical;font-family:inherit;line-height:1.5;" oninput="nomGenerarMemo()"></textarea>
+      </div>
+      <!-- Memo preview -->
+      <div id="nom-memo-preview" style="background:#f8f9ff;border:1px solid #d0daff;border-radius:7px;padding:12px;font-size:11px;color:#555;line-height:1.7;display:none;">
+        <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:6px;font-family:monospace;letter-spacing:0.04em;">MEMO DE CORRECCIÓN — Vista previa</div>
+        <div id="nom-memo-texto"></div>
+      </div>
+    </div>
+    <div style="padding:12px 20px;border-top:1px solid #f0f0f0;display:flex;gap:8px;justify-content:flex-end;background:#fafafa;">
+      <button onclick="nomCerrarModal('nom-modal-ajuste')" style="padding:8px 16px;background:transparent;border:1px solid #ddd;border-radius:7px;font-size:13px;cursor:pointer;color:#555;">Cancelar</button>
+      <button onclick="nomConfirmarAjuste()" style="padding:8px 16px;background:#1F3864;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;">Firmar y guardar memo ✓</button>
+    </div>
+  </div>
 </div>
 
-<!-- PLACEHOLDER TABS -->
+<!-- MODAL INCIDENCIA -->
+<div id="nom-modal-incidencia" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:3000;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:14px;width:100%;max-width:460px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="background:#185FA5;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="color:#fff;font-size:15px;font-weight:600;">Incidencia Operacional</div>
+        <div style="color:rgba(255,255,255,0.5);font-size:11px;margin-top:2px;" id="nom-inc-sub">Días sin registro por causa externa</div>
+      </div>
+      <button onclick="nomCerrarModal('nom-modal-incidencia')" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:18px;cursor:pointer;">×</button>
+    </div>
+    <div style="padding:20px;">
+      <!-- Tipo incidencia -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:8px;">Tipo de incidencia</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div id="inc-t1" onclick="nomSelInc('inc-t1','apagón')" style="padding:10px;border:1px solid #185FA5;border-radius:7px;cursor:pointer;text-align:center;background:#e8f1fb;">
+            <div style="font-size:18px;margin-bottom:3px;">⚡</div>
+            <div style="font-size:11px;font-weight:500;color:#185FA5;">Apagón / APC</div>
+          </div>
+          <div id="inc-t2" onclick="nomSelInc('inc-t2','tablet dañada')" style="padding:10px;border:1px solid #ddd;border-radius:7px;cursor:pointer;text-align:center;">
+            <div style="font-size:18px;margin-bottom:3px;">📱</div>
+            <div style="font-size:11px;font-weight:500;color:#888;">Tablet dañada</div>
+          </div>
+          <div id="inc-t3" onclick="nomSelInc('inc-t3','fallo del sistema')" style="padding:10px;border:1px solid #ddd;border-radius:7px;cursor:pointer;text-align:center;">
+            <div style="font-size:18px;margin-bottom:3px;">🖥</div>
+            <div style="font-size:11px;font-weight:500;color:#888;">Fallo del sistema</div>
+          </div>
+          <div id="inc-t4" onclick="nomSelInc('inc-t4','otro')" style="padding:10px;border:1px solid #ddd;border-radius:7px;cursor:pointer;text-align:center;">
+            <div style="font-size:18px;margin-bottom:3px;">📋</div>
+            <div style="font-size:11px;font-weight:500;color:#888;">Otro</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Fecha inicio</div>
+          <input type="date" id="nom-inc-inicio" value="2026-06-09" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:13px;color:#1a1a1a;outline:none;">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Fecha fin</div>
+          <input type="date" id="nom-inc-fin" value="2026-06-10" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:13px;color:#1a1a1a;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;margin-bottom:5px;">Descripción del incidente</div>
+        <textarea id="nom-inc-nota" rows="3" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:12px;color:#1a1a1a;outline:none;resize:vertical;font-family:inherit;line-height:1.5;">Apagón en el sector afectó el consultorio. APC sin energía desde las 7:45 AM. Empleado estuvo presente según calendario de turnos verificado.</textarea>
+      </div>
+      <div style="background:#f8f9ff;border:1px solid #d0daff;border-radius:7px;padding:12px;font-size:11px;color:#555;line-height:1.7;">
+        <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:6px;font-family:monospace;">MEMO DE INCIDENCIA — Vista previa</div>
+        Por medio del presente se certifica que <strong id="nom-inc-nombre">el empleado</strong> no pudo registrar su asistencia por <strong id="nom-inc-tipo-txt">apagón</strong>. Horas reconstruidas manualmente como 8.0 hrs regulares por día. <em>Firmado digitalmente: Dr. Del Pueblo · WCV HRIS</em>
+      </div>
+    </div>
+    <div style="padding:12px 20px;border-top:1px solid #f0f0f0;display:flex;gap:8px;justify-content:flex-end;background:#fafafa;">
+      <button onclick="nomCerrarModal('nom-modal-incidencia')" style="padding:8px 16px;background:transparent;border:1px solid #ddd;border-radius:7px;font-size:13px;cursor:pointer;color:#555;">Cancelar</button>
+      <button onclick="nomConfirmarIncidencia()" style="padding:8px 16px;background:#185FA5;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;">Firmar y registrar ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var nomEmpActivo = '';
+var nomIncTipo = 'apagón';
+
+function nomAprobar(nombre) {
+  nomAgregarAudit('✓','#e1f5ee','#0F6E56', nombre, 'Nómina aprobada y enviada a Gusto para procesamiento.');
+  alert('✓ Nómina de ' + nombre + ' aprobada.');
+}
+function nomRechazar(nombre) {
+  var motivo = prompt('Motivo del rechazo (requerido):');
+  if (!motivo) return;
+  nomAgregarAudit('✗','#fcebeb','#A32D2D', nombre, 'Nómina rechazada. Motivo: ' + motivo);
+  alert('Nómina de ' + nombre + ' rechazada.');
+}
+function nomAjustar(nombre) {
+  nomEmpActivo = nombre;
+  document.getElementById('nom-ajuste-sub').textContent = nombre + ' · Ajuste de tiempo';
+  document.getElementById('nom-ajuste-nota').value = '';
+  document.getElementById('nom-memo-preview').style.display = 'none';
+  document.getElementById('nom-modal-ajuste').style.display = 'flex';
+}
+function nomIncidencia(nombre) {
+  nomEmpActivo = nombre;
+  document.getElementById('nom-inc-sub').textContent = nombre + ' · Incidencia operacional';
+  document.getElementById('nom-inc-nombre').textContent = nombre;
+  document.getElementById('nom-modal-incidencia').style.display = 'flex';
+}
+function nomCerrarModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+function nomSelInc(btnId, tipo) {
+  nomIncTipo = tipo;
+  ['inc-t1','inc-t2','inc-t3','inc-t4'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.style.border = '1px solid #ddd';
+    el.style.background = '';
+    el.querySelector('div:last-child').style.color = '#888';
+  });
+  var sel = document.getElementById(btnId);
+  sel.style.border = '1px solid #185FA5';
+  sel.style.background = '#e8f1fb';
+  sel.querySelector('div:last-child').style.color = '#185FA5';
+  document.getElementById('nom-inc-tipo-txt').textContent = tipo;
+}
+function nomGenerarMemo() {
+  var nota = document.getElementById('nom-ajuste-nota').value.trim();
+  if (!nota) { document.getElementById('nom-memo-preview').style.display = 'none'; return; }
+  var breakOut = document.getElementById('nom-break-out').value || '12:00';
+  var breakIn = document.getElementById('nom-break-in').value || '12:30';
+  var hoy = new Date().toLocaleDateString('es-PR',{day:'numeric',month:'long',year:'numeric'});
+  var num = 'WCV-2026-0' + (Math.floor(Math.random()*90)+10);
+  document.getElementById('nom-memo-texto').innerHTML =
+    '<strong>Memo #' + num + '</strong> · ' + hoy + '<br>' +
+    '<strong>Para:</strong> Expediente de ' + nomEmpActivo + '<br>' +
+    'Break corregido: <strong>' + breakOut + '–' + breakIn + '</strong> (30 min no compensables). ' + nota +
+    '<br><em>Firmado: Dr. Del Pueblo · ' + hoy + ' · WCV HRIS</em>';
+  document.getElementById('nom-memo-preview').style.display = 'block';
+}
+function nomConfirmarAjuste() {
+  var nota = document.getElementById('nom-ajuste-nota').value.trim();
+  if (!nota) { alert('Debe ingresar una nota para generar el memo.'); return; }
+  nomCerrarModal('nom-modal-ajuste');
+  nomAgregarAudit('✎','#e8f1fb','#185FA5', nomEmpActivo, 'Ajuste de tiempo firmado. OT eliminado. Memo generado.');
+  alert('✓ Memo generado y guardado en expediente de ' + nomEmpActivo + '.');
+}
+function nomConfirmarIncidencia() {
+  nomCerrarModal('nom-modal-incidencia');
+  nomAgregarAudit('⚡','#faeeda','#854F0B', nomEmpActivo, 'Incidencia operacional (' + nomIncTipo + ') registrada y firmada. Memo generado.');
+  alert('✓ Incidencia registrada en expediente de ' + nomEmpActivo + '.');
+}
+function nomAgregarAudit(icon, bg, color, nombre, desc) {
+  var now = new Date().toLocaleString('es-PR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  var list = document.getElementById('nom-audit');
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid #f5f5f5;font-size:12px;background:#fffdf5;';
+  row.innerHTML =
+    '<div style="font-family:monospace;color:#aaa;min-width:120px;flex-shrink:0;">' + now + '</div>' +
+    '<div style="width:22px;height:22px;border-radius:50%;background:' + bg + ';color:' + color + ';display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">' + icon + '</div>' +
+    '<div style="color:#555;line-height:1.5;"><strong style="color:#1F3864;">' + nombre + '</strong> — ' + desc + ' · Dr. Del Pueblo</div>';
+  list.insertBefore(row, list.firstChild);
+}
+// Cerrar modales al clickear overlay
+['nom-modal-ajuste','nom-modal-incidencia'].forEach(function(id) {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) nomCerrarModal(id);
+  });
+});
+</script>
+</div>
+
+
 <div id="tab-ingresos" class="tab-content" style="display:none">
   <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Ingresos — próximamente</div></div>
 </div>
