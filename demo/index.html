@@ -467,8 +467,779 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <div id="tab-taxreserve" class="tab-content" style="display:none">
   <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Tax Reserve — próximamente</div></div>
 </div>
-<div id="tab-inversiones" class="tab-content" style="display:none">
-  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Inversiones / Schwab — próximamente</div></div>
+<div id="tab-inversiones" class="tab-content" style="display:none; background:#0a0f1e;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0f1e;
+    --bg2: #111827;
+    --bg3: #1a2235;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --teal: #0ee6b4;
+    --teal2: rgba(14,230,180,0.12);
+    --teal3: rgba(14,230,180,0.06);
+    --blue: #3b8cf7;
+    --blue2: rgba(59,140,247,0.12);
+    --amber: #f5a623;
+    --red: #f24d4d;
+    --text: #f0f4ff;
+    --text2: #8b95a9;
+    --text3: #4e5a6e;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Inter', sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+#inv-scope { font-size: 16px; }
+#inv-scope {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+#inv-scope .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 36px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+#inv-scope .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+#inv-scope .logo span { color: var(--text2); font-weight: 400; }
+#inv-scope .header-tag {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Main layout ── */
+#inv-scope .main { max-width: 1100px; margin: 0 auto; padding: 36px 24px 80px; }
+
+#inv-scope .hero {
+    text-align: center;
+    padding: 48px 0 40px;
+  }
+#inv-scope .hero-eyebrow {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+#inv-scope .hero h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+#inv-scope .hero h1 strong { font-weight: 600; color: var(--teal); }
+#inv-scope .hero-sub {
+    font-size: 14px;
+    color: var(--text2);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── Section headings ── */
+#inv-scope .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+#inv-scope .section-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+#inv-scope .section-title { font-size: 15px; font-weight: 500; color: var(--text); }
+#inv-scope .section-sub { font-size: 12px; color: var(--text2); margin-left: auto; }
+
+  /* ── Cards ── */
+#inv-scope .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Controls ── */
+#inv-scope .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+#inv-scope .ctrl { display: flex; flex-direction: column; gap: 8px; }
+#inv-scope .ctrl-label {
+    font-size: 12px;
+    color: var(--text2);
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+#inv-scope .ctrl-row { display: flex; align-items: center; gap: 12px; }
+#inv-scope .ctrl-val {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teal);
+    min-width: 88px;
+    text-align: right;
+  }
+
+#inv-scope input[type=range] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--teal);
+    cursor: pointer;
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--teal);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--teal);
+    cursor: pointer;
+    border: 2px solid var(--bg);
+  }
+
+#inv-scope select {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+  }
+  select:focus { border-color: var(--teal); }
+
+  /* ── Freq pills ── */
+#inv-scope .pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+#inv-scope .pill {
+    font-size: 12px;
+    font-family: var(--mono);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.15s;
+  }
+#inv-scope .pill.active {
+    background: var(--teal2);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  /* ── Divider ── */
+#inv-scope .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── Metrics ── */
+#inv-scope .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+#inv-scope .metric {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  }
+#inv-scope .metric.highlight { border-color: var(--teal); background: var(--teal3); }
+#inv-scope .metric.highlight2 { border-color: var(--blue); background: var(--blue2); }
+#inv-scope .metric-label { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.04em; margin-bottom: 6px; }
+#inv-scope .metric-val { font-size: 22px; font-weight: 600; color: var(--text); font-family: var(--mono); }
+#inv-scope .metric.highlight .metric-val { color: var(--teal); }
+#inv-scope .metric.highlight2 .metric-val { color: var(--blue); }
+#inv-scope .metric-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* ── Tax breakdown ── */
+#inv-scope .tax-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+#inv-scope .tax-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .tax-row:last-child { border-bottom: none; }
+#inv-scope .tax-name { color: var(--text2); }
+#inv-scope .tax-amt { font-family: var(--mono); font-weight: 500; }
+#inv-scope .tax-amt.neg { color: var(--red); }
+#inv-scope .tax-amt.pos { color: var(--teal); }
+#inv-scope .tax-amt.neutral { color: var(--text); }
+
+  /* ── Portfolio asset cards ── */
+#inv-scope .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+#inv-scope .asset-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+#inv-scope .asset-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+#inv-scope .asset-ticker { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+#inv-scope .asset-row { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; }
+#inv-scope .asset-row .l { color: var(--text2); }
+#inv-scope .asset-row .r { font-family: var(--mono); font-weight: 500; }
+#inv-scope .bar-track { height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; }
+#inv-scope .bar-fill { height: 3px; border-radius: 2px; }
+
+  /* ── Chart ── */
+#inv-scope .chart-wrap { position: relative; width: 100%; }
+#inv-scope .chart-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+#inv-scope .legend-item { display: flex; align-items: center; gap: 6px; }
+#inv-scope .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* ── Phase badge ── */
+#inv-scope .phase-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+#inv-scope .badge {
+    font-size: 11px;
+    font-family: var(--mono);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+  }
+#inv-scope .badge.a { border-color: var(--teal); color: var(--teal); background: var(--teal3); }
+#inv-scope .badge.b { border-color: var(--blue); color: var(--blue); background: var(--blue2); }
+
+  /* ── Note box ── */
+#inv-scope .note-box {
+    background: var(--bg3);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+#inv-scope .note-box strong { color: var(--amber); font-weight: 500; }
+
+  /* ── Footer ── */
+#inv-scope .footer {
+    text-align: center;
+    padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 600px) {
+#inv-scope .header { padding: 16px 20px; }
+#inv-scope .main { padding: 24px 16px 60px; }
+#inv-scope .card { padding: 18px; }
+#inv-scope .hero { padding: 32px 0 28px; }
+  }
+
+/* Reset portal styles dentro del scope */
+#inv-scope * { font-family: 'Inter', -apple-system, sans-serif; }
+#inv-scope { background: #0a0f1e; min-height: calc(100vh - 100px); }
+</style>
+<div id="inv-scope">
+
+
+<header class="header">
+  <div class="logo">WCV <span>/ West Capital Ventures</span></div>
+  <div class="header-tag">Proyección Patrimonial Confidencial</div>
+</header>
+
+<main class="main">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Arquitectura Patrimonial Médica</div>
+    <h1>Su capital trabajando<br><strong>inteligentemente</strong></h1>
+    <p class="hero-sub">Dos fases, una estrategia. Acumulación con interés compuesto → Retiro con ingreso pasivo mensual.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FASE 1 — ACUMULACIÓN
+  ════════════════════════════════════════════════════════ -->
+  <div class="phase-badges">
+    <span class="badge a">Fase 1 — Acumulación</span>
+    <span class="badge b">Fase 2 — Retiro e Ingreso Pasivo</span>
+  </div>
+
+  <div class="card">
+    <div class="section-head">
+      <div class="section-num">1</div>
+      <div class="section-title">Parámetros de acumulación</div>
+      <div class="section-sub">Interés compuesto</div>
+    </div>
+
+    <div class="controls-grid">
+      <div class="ctrl">
+        <span class="ctrl-label">Capital inicial</span>
+        <div class="ctrl-row">
+          <input type="range" id="principal" min="5000" max="500000" step="5000" value="50000">
+          <span class="ctrl-val" id="principal-out">$50,000</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Aportación mensual</span>
+        <div class="ctrl-row">
+          <input type="range" id="monthly" min="0" max="10000" step="100" value="1000">
+          <span class="ctrl-val" id="monthly-out">$1,000</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Rendimiento anual estimado</span>
+        <div class="ctrl-row">
+          <input type="range" id="rate" min="3" max="15" step="0.5" value="8">
+          <span class="ctrl-val" id="rate-out">8.0%</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Años de acumulación</span>
+        <div class="ctrl-row">
+          <input type="range" id="years" min="5" max="40" step="1" value="20">
+          <span class="ctrl-val" id="years-out">20 años</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="ctrl" style="margin-bottom:0;">
+      <span class="ctrl-label">Frecuencia de capitalización</span>
+      <div class="pill-row" id="freq-row">
+        <button class="pill" data-n="1">Anual</button>
+        <button class="pill" data-n="2">Semestral</button>
+        <button class="pill" data-n="4">Trimestral</button>
+        <button class="pill active" data-n="12">Mensual</button>
+        <button class="pill" data-n="365">Diaria</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics Phase 1 -->
+  <div class="metrics-grid" id="metrics1"></div>
+
+  <!-- Chart Phase 1 -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-num" style="border-color:var(--teal);color:var(--teal);">↗</div>
+      <div class="section-title">Crecimiento del capital</div>
+    </div>
+    <div class="chart-legend" id="legend1"></div>
+    <div class="chart-wrap" style="height:260px;">
+      <canvas id="chart1" role="img" aria-label="Gráfica de crecimiento del capital acumulado con interés compuesto">Crecimiento proyectado del capital a lo largo del período de acumulación.</canvas>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       FASE 2 — RETIRO
+  ════════════════════════════════════════════════════════ -->
+  <div class="card" style="margin-top:36px;">
+    <div class="section-head">
+      <div class="section-num">2</div>
+      <div class="section-title">Configuración del portafolio de retiro</div>
+      <div class="section-sub">Ingreso pasivo mensual</div>
+    </div>
+
+    <div class="controls-grid">
+      <div class="ctrl">
+        <span class="ctrl-label">Capital al retiro</span>
+        <div style="font-size:11px; color:var(--text3); margin-bottom:4px;">Se hereda de Fase 1 automáticamente</div>
+        <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--teal);" id="capital-display">—</div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Perfil del portafolio</span>
+        <select id="profile">
+          <option value="conservative">Conservador (4.5% yield)</option>
+          <option value="moderate" selected>Moderado (5.2% yield)</option>
+          <option value="growth">Crecimiento con dividendos (6.8% yield)</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Inflación anual estimada</span>
+        <div class="ctrl-row">
+          <input type="range" id="inflation" min="1" max="6" step="0.5" value="3">
+          <span class="ctrl-val" id="inflation-out">3.0%</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-head" style="margin-bottom:14px;">
+      <div class="section-num" style="width:20px;height:20px;font-size:10px;border-color:var(--amber);color:var(--amber);">$</div>
+      <div class="section-title" style="font-size:13px;">Estructura contributiva aplicada</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;" id="tax-panels">
+    </div>
+  </div>
+
+  <!-- Metrics Phase 2 -->
+  <div class="metrics-grid" id="metrics2"></div>
+
+  <!-- Asset breakdown -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-num">◈</div>
+      <div class="section-title">Composición del portafolio</div>
+    </div>
+    <div class="asset-grid" id="asset-grid"></div>
+  </div>
+
+  <!-- Chart Phase 2 -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-num" style="border-color:var(--blue);color:var(--blue);">↗</div>
+      <div class="section-title">Ingreso mensual proyectado — 30 años de retiro</div>
+    </div>
+    <div class="chart-legend" id="legend2"></div>
+    <div class="chart-wrap" style="height:240px;">
+      <canvas id="chart2" role="img" aria-label="Ingreso mensual neto proyectado durante 30 años de retiro, nominal vs poder adquisitivo real">Proyección del ingreso pasivo mensual durante el retiro.</canvas>
+    </div>
+    <div class="note-box" id="note-box"></div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  West Capital Ventures LLC · EIN 66-1134162 · joel@westcapitalventuresllc.com<br>
+  Proyección con fines ilustrativos. No constituye asesoramiento de inversión. Consulte a su CPA y asesor financiero.
+</footer>
+
+
+
+</div>
+<script>
+(function() {
+
+const profiles = {
+  conservative: {
+    yield: 0.045,
+    assets: [
+      { name: 'Bonos EE.UU.',    ticker: 'BND / AGG', pct: 0.40, yld: 0.035, color: '#3b8cf7' },
+      { name: 'REITs',           ticker: 'VNQ',       pct: 0.20, yld: 0.047, color: '#0ee6b4' },
+      { name: 'Div. altas',      ticker: 'VYM',       pct: 0.25, yld: 0.033, color: '#8b78f5' },
+      { name: 'Pref. shares',    ticker: 'PFF',       pct: 0.15, yld: 0.066, color: '#f5a623' }
+    ]
+  },
+  moderate: {
+    yield: 0.052,
+    assets: [
+      { name: 'Div. crecimiento', ticker: 'SCHD',     pct: 0.35, yld: 0.038, color: '#3b8cf7' },
+      { name: 'REITs',            ticker: 'VNQ',      pct: 0.20, yld: 0.047, color: '#0ee6b4' },
+      { name: 'Bonos Corp.',      ticker: 'LQD',      pct: 0.20, yld: 0.042, color: '#8b78f5' },
+      { name: 'Div. altas',       ticker: 'VYM / HDV',pct: 0.25, yld: 0.043, color: '#f5a623' }
+    ]
+  },
+  growth: {
+    yield: 0.068,
+    assets: [
+      { name: 'Covered calls',   ticker: 'JEPI / JEPQ', pct: 0.35, yld: 0.085, color: '#3b8cf7' },
+      { name: 'Div. internac.',  ticker: 'VYMI',        pct: 0.20, yld: 0.056, color: '#0ee6b4' },
+      { name: 'REITs',           ticker: 'VNQ',         pct: 0.25, yld: 0.047, color: '#8b78f5' },
+      { name: 'Div. aristocrats',ticker: 'NOBL',        pct: 0.20, yld: 0.022, color: '#f5a623' }
+    ]
+  }
+};
+
+let n = 12;
+let chart1inst, chart2inst;
+
+const fmtM = v => {
+  if (Math.abs(v) >= 1e6) return '$' + (v/1e6).toFixed(2) + 'M';
+  if (Math.abs(v) >= 1e3) return '$' + Math.round(v/1e3) + 'K';
+  return '$' + Math.round(v);
+};
+const fmt = v => '$' + Math.round(v).toLocaleString('en-US');
+const pct = v => (v*100).toFixed(1) + '%';
+
+function calcPhase1() {
+  const P = +document.getElementById('principal').value;
+  const m = +document.getElementById('monthly').value;
+  const r = +document.getElementById('rate').value / 100;
+  const Y = +document.getElementById('years').value;
+
+  const labels = [], totalArr = [], contribArr = [], interestArr = [];
+  for (let y = 0; y <= Y; y++) {
+    const compounded = P * Math.pow(1 + r/n, n*y);
+    let monthlyFV = 0;
+    if (m > 0 && y > 0) {
+      const mr = r/12;
+      monthlyFV = m * (Math.pow(1+mr, 12*y) - 1) / mr;
+    }
+    const total = compounded + monthlyFV;
+    const contrib = P + m*12*y;
+    labels.push(y === 0 ? 'Hoy' : 'Año ' + y);
+    totalArr.push(total);
+    contribArr.push(contrib);
+    interestArr.push(total - contrib);
+  }
+  return { labels, totalArr, contribArr, interestArr, P, m, r, Y };
+}
+
+function renderPhase1() {
+  const { labels, totalArr, contribArr, interestArr, P, m, Y } = calcPhase1();
+  const finalTotal = totalArr[Y];
+  const finalContrib = contribArr[Y];
+  const finalInterest = interestArr[Y];
+
+  document.getElementById('metrics1').innerHTML = `
+    <div class="metric"><div class="metric-label">Capital inicial</div><div class="metric-val">${fmt(P)}</div><div class="metric-sub">Inversión de entrada</div></div>
+    <div class="metric"><div class="metric-label">Total aportado</div><div class="metric-val">${fmtM(finalContrib)}</div><div class="metric-sub">${Y} años × $${(m*12).toLocaleString()}/año</div></div>
+    <div class="metric highlight"><div class="metric-label">Valor final acumulado</div><div class="metric-val">${fmtM(finalTotal)}</div><div class="metric-sub">Capital al retiro</div></div>
+    <div class="metric"><div class="metric-label">Intereses ganados</div><div class="metric-val">${fmtM(finalInterest)}</div><div class="metric-sub">${pct((finalTotal/finalContrib)-1)} sobre aportado</div></div>
+    <div class="metric highlight2"><div class="metric-label">Multiplicador</div><div class="metric-val">${(finalTotal/P).toFixed(1)}×</div><div class="metric-sub">Del capital inicial</div></div>
+  `;
+
+  document.getElementById('capital-display').textContent = fmtM(finalTotal);
+
+  document.getElementById('legend1').innerHTML = `
+    <span class="legend-item"><span class="legend-dot" style="background:#0ee6b4"></span>Valor total acumulado</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#3b8cf7"></span>Total aportado</span>
+  `;
+
+  if (chart1inst) chart1inst.destroy();
+  chart1inst = new Chart(document.getElementById('chart1'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Total', data: totalArr, borderColor: '#0ee6b4', backgroundColor: 'rgba(14,230,180,0.08)', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2 },
+        { label: 'Aportado', data: contribArr, borderColor: '#3b8cf7', backgroundColor: 'rgba(59,140,247,0.07)', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 1.5, borderDash: [5,4] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed.y) } } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#4e5a6e', font: { size: 11 }, maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#4e5a6e', font: { size: 11 }, callback: v => fmtM(v) } }
+      }
+    }
+  });
+
+  renderPhase2(totalArr[Y]);
+}
+
+function renderPhase2(capital) {
+  const profile = profiles[document.getElementById('profile').value];
+  const inflation = +document.getElementById('inflation').value / 100;
+
+  const grossAnnual = capital * profile.yield;
+  const grossMonthly = grossAnnual / 12;
+
+  // PR Hacienda: dividendos calificados de fuentes de EE.UU.
+  // Sin decreto activo en retiro → tasa regular PR hasta 33%
+  // Pero dividendos cualificados tienen tratamiento especial → ~15-20% PR
+  // Federal: qualified dividends 0%/15%/20% dependiendo del bracket
+  // Asumimos bracket moderado médico: 15% federal + 15% PR = 30% total efectivo
+  // REITs son ordinarios → más altos (25% federal + 15% PR = 40%)
+  // Usamos blended rate basado en composición del portafolio
+
+  const reitPct = profile.assets.find(a => a.name === 'REITs')?.pct || 0.20;
+  const nonReitPct = 1 - reitPct;
+  const qualifiedRate = 0.30;  // 15% fed + 15% PR efectivo
+  const reitRate = 0.40;       // 25% fed (REIT ordinario) + 15% PR
+  const blendedTax = reitPct * reitRate + nonReitPct * qualifiedRate;
+
+  const taxAmount = grossMonthly * blendedTax;
+  const netMonthly = grossMonthly - taxAmount;
+
+  // Tax panel HTML
+  const fedRate = (reitPct * 0.25 + nonReitPct * 0.15);
+  const prRate = 0.15;
+  document.getElementById('tax-panels').innerHTML = `
+    <div>
+      <div style="font-size:11px; color:#3b8cf7; font-family:var(--mono); margin-bottom:10px; letter-spacing:0.06em;">GOBIERNO FEDERAL (IRS)</div>
+      <div class="tax-row"><span class="tax-name">Dividendos cualificados (acciones)</span><span class="tax-amt" style="color:#f5a623;">15%</span></div>
+      <div class="tax-row"><span class="tax-name">REIT distributions (ordinario)</span><span class="tax-amt" style="color:#f5a623;">25%</span></div>
+      <div class="tax-row"><span class="tax-name">Net Investment Income Tax</span><span class="tax-amt" style="color:var(--text2);">N/A si &lt;$200K MAGI</span></div>
+      <div class="tax-row"><span class="tax-name">Retención estimada</span><span class="tax-amt neg">-${fmt(grossMonthly * fedRate)}/mes</span></div>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#0ee6b4; font-family:var(--mono); margin-bottom:10px; letter-spacing:0.06em;">PR — HACIENDA</div>
+      <div class="tax-row"><span class="tax-name">Decreto médico (Ley 29)</span><span class="tax-amt" style="color:#f24d4d;">Expira al retirarse</span></div>
+      <div class="tax-row"><span class="tax-name">Régimen regular — div. cualificados</span><span class="tax-amt" style="color:#f5a623;">~15% efectivo</span></div>
+      <div class="tax-row"><span class="tax-name">REIT — ingreso ordinario PR</span><span class="tax-amt" style="color:#f5a623;">~15–20%</span></div>
+      <div class="tax-row"><span class="tax-name">Retención estimada</span><span class="tax-amt neg">-${fmt(grossMonthly * prRate)}/mes</span></div>
+    </div>
+  `;
+
+  document.getElementById('metrics2').innerHTML = `
+    <div class="metric"><div class="metric-label">Ingreso bruto mensual</div><div class="metric-val">${fmt(grossMonthly)}</div><div class="metric-sub">Yield ${pct(profile.yield)} s/ capital</div></div>
+    <div class="metric"><div class="metric-label">Fed + PR (estimado)</div><div class="metric-val" style="color:#f24d4d;">-${fmt(taxAmount)}</div><div class="metric-sub">Tasa blend: ${pct(blendedTax)}</div></div>
+    <div class="metric highlight"><div class="metric-label">Ingreso neto mensual</div><div class="metric-val">${fmt(netMonthly)}</div><div class="metric-sub">Lo que llega a su cuenta</div></div>
+    <div class="metric"><div class="metric-label">Ingreso neto anual</div><div class="metric-val">${fmtM(netMonthly*12)}</div><div class="metric-sub">Sin tocar el capital</div></div>
+    <div class="metric highlight2"><div class="metric-label">Poder adquisitivo en 20 años</div><div class="metric-val">${fmt(netMonthly / Math.pow(1+inflation, 20))}</div><div class="metric-sub">Equiv. de hoy c/ inf. ${pct(inflation)}</div></div>
+  `;
+
+  let assetHtml = '';
+  profile.assets.forEach(a => {
+    const assetCap = capital * a.pct;
+    const blendRate = a.name === 'REITs' ? reitRate : qualifiedRate;
+    const assetNet = assetCap * a.yld * (1 - blendRate) / 12;
+    assetHtml += `
+      <div class="asset-card">
+        <div class="asset-name" style="color:${a.color}">${a.name}</div>
+        <div class="asset-ticker">${a.ticker}</div>
+        <div class="asset-row"><span class="l">Asignación</span><span class="r" style="color:${a.color}">${Math.round(a.pct*100)}%</span></div>
+        <div class="asset-row"><span class="l">Yield</span><span class="r">${pct(a.yld)}</span></div>
+        <div class="asset-row"><span class="l">Neto/mes</span><span class="r" style="color:#0ee6b4">${fmt(assetNet)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="background:${a.color}; width:${Math.round(a.pct*100)}%"></div></div>
+      </div>
+    `;
+  });
+  document.getElementById('asset-grid').innerHTML = assetHtml;
+
+  const years = 30;
+  const labels2 = [], nominalData = [], realData = [];
+  for (let y = 0; y <= years; y++) {
+    labels2.push(y === 0 ? 'Hoy' : 'Año ' + y);
+    nominalData.push(Math.round(netMonthly));
+    realData.push(Math.round(netMonthly / Math.pow(1+inflation, y)));
+  }
+
+  document.getElementById('legend2').innerHTML = `
+    <span class="legend-item"><span class="legend-dot" style="background:#0ee6b4"></span>Ingreso neto nominal (constante)</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#3b8cf7"></span>Poder adquisitivo real (inf. ${pct(inflation)} anual)</span>
+  `;
+
+  if (chart2inst) chart2inst.destroy();
+  chart2inst = new Chart(document.getElementById('chart2'), {
+    type: 'line',
+    data: {
+      labels: labels2,
+      datasets: [
+        { label: 'Nominal', data: nominalData, borderColor: '#0ee6b4', backgroundColor: 'rgba(14,230,180,0.06)', fill: true, tension: 0, pointRadius: 0, borderWidth: 2 },
+        { label: 'Real', data: realData, borderColor: '#3b8cf7', backgroundColor: 'rgba(59,140,247,0.06)', fill: true, tension: 0, pointRadius: 0, borderWidth: 1.5, borderDash: [5,4] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed.y) + '/mes' } } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#4e5a6e', font: { size: 11 }, maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#4e5a6e', font: { size: 11 }, callback: v => fmt(v) } }
+      }
+    }
+  });
+
+  const realIn10 = fmt(netMonthly / Math.pow(1+inflation, 10));
+  const realIn20 = fmt(netMonthly / Math.pow(1+inflation, 20));
+  document.getElementById('note-box').innerHTML = `
+    <strong>Nota contributiva:</strong> Las tasas aplicadas son estimadas. El decreto médico Ley 29 expira al cesar la práctica clínica activa — en retiro, los dividendos tributan bajo el régimen regular de PR (~15% efectivo para dividendos cualificados) más la retención federal (15–25% según tipo de instrumento). Las tasas exactas dependen del ingreso total anual y deben ser confirmadas por su CPA.<br><br>
+    <strong>Efecto inflación:</strong> Su cheque mensual de ${fmt(netMonthly)} permanece constante si no toca el capital, pero con inflación de ${pct(inflation)}, en 10 años equivaldrá a ${realIn10} de hoy, y en 20 años a ${realIn20}. La estrategia óptima reinvierte ~${pct(inflation)} del yield anualmente para preservar el poder adquisitivo.
+  `;
+}
+
+document.getElementById('principal').addEventListener('input', e => {
+  document.getElementById('principal-out').textContent = '$' + (+e.target.value).toLocaleString('en-US');
+  renderPhase1();
+});
+document.getElementById('monthly').addEventListener('input', e => {
+  document.getElementById('monthly-out').textContent = '$' + (+e.target.value).toLocaleString('en-US');
+  renderPhase1();
+});
+document.getElementById('rate').addEventListener('input', e => {
+  document.getElementById('rate-out').textContent = parseFloat(e.target.value).toFixed(1) + '%';
+  renderPhase1();
+});
+document.getElementById('years').addEventListener('input', e => {
+  document.getElementById('years-out').textContent = e.target.value + ' años';
+  renderPhase1();
+});
+document.getElementById('profile').addEventListener('change', () => {
+  const { totalArr, Y } = calcPhase1();
+  renderPhase2(totalArr[Y]);
+});
+document.getElementById('inflation').addEventListener('input', e => {
+  document.getElementById('inflation-out').textContent = parseFloat(e.target.value).toFixed(1) + '%';
+  const { totalArr, Y } = calcPhase1();
+  renderPhase2(totalArr[Y]);
+});
+document.getElementById('freq-row').querySelectorAll('.pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('freq-row').querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    n = +btn.dataset.n;
+    renderPhase1();
+  });
+});
+
+renderPhase1();
+
+})();
+</script>
 </div>
 <div id="tab-gestoria" class="tab-content" style="display:none">
   <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Gestoría — próximamente</div></div>
@@ -513,6 +1284,11 @@ function showTab(name, el) {
   document.querySelectorAll('.stab').forEach(function(t){ t.classList.remove('active'); });
   document.getElementById('tab-'+name).style.display='block';
   el.classList.add('active');
+  if (name === 'inversiones') {
+    setTimeout(function() {
+      if (typeof renderPhase1 === 'function') renderPhase1();
+    }, 80);
+  }
 }
 
 function aprobar(btn, emp) {
