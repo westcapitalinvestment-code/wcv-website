@@ -114,7 +114,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div class="stab active" onclick="showTab('resumen',this)">Resumen</div>
   <div class="stab" onclick="showTab('ingresos',this)">Ingresos</div>
   <div class="stab" onclick="showTab('gastos',this)">Gastos</div>
-  <div class="stab" onclick="showTab('taxreserve',this)">Tax Reserve</div>
+  <div class="stab" onclick="showTab('taxreserve',this)">Simulador</div>
   <div class="stab" onclick="showTab('inversiones',this)">Inversiones</div>
   <div class="stab" onclick="showTab('nomina',this)">Nómina</div>
   <div class="stab" onclick="showTab('gestoria',this)">Gestoría</div>
@@ -722,8 +722,214 @@ function nomAgregarAudit(icon, bg, color, nombre, desc) {
   <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Gastos — próximamente</div></div>
 </div>
 <div id="tab-taxreserve" class="tab-content" style="display:none">
-  <div class="main"><div style="padding:60px 0;text-align:center;color:#aaa;font-size:14px;">Módulo Tax Reserve — próximamente</div></div>
+<div class="main">
+  <div class="greeting">Simulador Contributivo</div>
+  <div class="subgreeting">Decreto Ley 14-2017/60-2022 &nbsp;·&nbsp; Waterfall: Ingreso Neto → Tax Reserve → Draw Personal → Schwab</div>
+
+  <!-- Victor tip -->
+  <div style="background:#040810;border:1px solid #1a2640;border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#040810;border:1px solid #0ee6b4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-family:'DM Mono',monospace;color:#0ee6b4;font-weight:700;">V</div>
+    <div style="font-size:12px;color:#8b95a9;line-height:1.5;"><strong style="color:#0ee6b4;">VICTOR:</strong> Ajusta tu facturación, gastos y draw personal abajo. Te muestro en tiempo real cuánto va a impuestos, cuánto te queda para vivir, y cuánto puede fluir a tu cuenta Schwab de la LLC cada trimestre.</div>
+  </div>
+
+  <!-- INPUTS -->
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:16px;">
+    <div style="font-size:13px;font-weight:600;color:#1F3864;margin-bottom:14px;">Datos del Consultorio</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">Facturación anual</div>
+        <input type="number" id="sim-facturacion" value="450000" step="5000" oninput="simCalcular()" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:7px;font-size:14px;color:#1a1a1a;outline:none;font-family:'DM Mono',monospace;">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">Gastos operacionales anuales</div>
+        <input type="number" id="sim-gastos" value="241400" step="1000" oninput="simCalcular()" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:7px;font-size:14px;color:#1a1a1a;outline:none;font-family:'DM Mono',monospace;">
+        <div style="font-size:10px;color:#aaa;margin-top:4px;">Incluye 4 empleados W-2 + cargas patronales + operacionales</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.04em;">Decreto Ley 14-2017/60-2022 (4% PR)</div>
+      <label style="position:relative;display:inline-block;width:44px;height:24px;">
+        <input type="checkbox" id="sim-decreto" checked onchange="simCalcular()" style="opacity:0;width:0;height:0;">
+        <span id="sim-decreto-track" style="position:absolute;cursor:pointer;inset:0;background:#0F6E56;border-radius:24px;transition:0.2s;"></span>
+        <span id="sim-decreto-knob" style="position:absolute;height:18px;width:18px;left:23px;top:3px;background:#fff;border-radius:50%;transition:0.2s;"></span>
+      </label>
+      <span id="sim-decreto-label" style="font-size:12px;font-weight:600;color:#0F6E56;">Con Decreto</span>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:130px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Ingreso neto</div>
+      <div style="font-size:20px;font-weight:600;color:#1F3864;font-family:'DM Mono',monospace;" id="sim-ingreso-neto">$208,600</div>
+    </div>
+    <div style="flex:1;min-width:130px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Contribución PR</div>
+      <div style="font-size:20px;font-weight:600;color:#854F0B;font-family:'DM Mono',monospace;" id="sim-pr-tax">$8,344</div>
+      <div style="font-size:10px;color:#aaa;margin-top:2px;" id="sim-pr-tax-sub">4% decreto</div>
+    </div>
+    <div style="flex:1;min-width:130px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">SE Tax federal</div>
+      <div style="font-size:20px;font-weight:600;color:#854F0B;font-family:'DM Mono',monospace;" id="sim-se-tax">$28,465</div>
+      <div style="font-size:10px;color:#aaa;margin-top:2px;">SS 12.4% + Medicare 2.9%</div>
+    </div>
+    <div style="flex:1;min-width:130px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">Tax Reserve total</div>
+      <div style="font-size:20px;font-weight:600;color:#A32D2D;font-family:'DM Mono',monospace;" id="sim-tax-total">$36,809</div>
+      <div style="font-size:10px;color:#aaa;margin-top:2px;" id="sim-tax-pct">17.6% efectivo</div>
+    </div>
+  </div>
+
+  <!-- SLIDER -->
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+      <div style="font-size:13px;font-weight:600;color:#1F3864;">Draw Personal Mensual</div>
+      <div style="font-size:22px;font-weight:700;color:#185FA5;font-family:'DM Mono',monospace;" id="sim-draw-display">$8,000</div>
+    </div>
+    <input type="range" id="sim-draw" min="0" max="20000" step="500" value="8000" oninput="simCalcular()" style="width:100%;accent-color:#185FA5;">
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:4px;">
+      <span>$0</span>
+      <span>$10,000</span>
+      <span>$20,000</span>
+    </div>
+  </div>
+
+  <!-- WATERFALL -->
+  <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:16px;">
+    <div style="font-size:13px;font-weight:600;color:#1F3864;margin-bottom:4px;">Waterfall Anual</div>
+    <div style="font-size:11px;color:#888;margin-bottom:14px;">De cada dólar de ingreso neto, a dónde va</div>
+    <div style="display:flex;height:36px;border-radius:8px;overflow:hidden;margin-bottom:10px;">
+      <div id="sim-bar-tax" style="background:#E24B4A;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;transition:width 0.3s;white-space:nowrap;overflow:hidden;">Tax Reserve</div>
+      <div id="sim-bar-draw" style="background:#185FA5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;transition:width 0.3s;white-space:nowrap;overflow:hidden;">Draw Personal</div>
+      <div id="sim-bar-schwab" style="background:#0F6E56;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;transition:width 0.3s;white-space:nowrap;overflow:hidden;">Schwab Org</div>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:#888;">
+      <div><span style="display:inline-block;width:10px;height:10px;background:#E24B4A;border-radius:2px;margin-right:5px;"></span>Tax Reserve (Hacienda + IRS, automático)</div>
+      <div><span style="display:inline-block;width:10px;height:10px;background:#185FA5;border-radius:2px;margin-right:5px;"></span>Draw Personal (gastos de vida)</div>
+      <div><span style="display:inline-block;width:10px;height:10px;background:#0F6E56;border-radius:2px;margin-right:5px;"></span>Excedente → Schwab Organization Account</div>
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:150px;background:#fcebeb;border:1px solid #f5b8b8;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#A32D2D;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Tax Reserve /mes</div>
+      <div style="font-size:18px;font-weight:600;color:#A32D2D;font-family:'DM Mono',monospace;" id="sim-tax-mensual">$3,067</div>
+    </div>
+    <div style="flex:1;min-width:150px;background:#e8f1fb;border:1px solid #b8d4f5;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#185FA5;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Draw Personal /mes</div>
+      <div style="font-size:18px;font-weight:600;color:#185FA5;font-family:'DM Mono',monospace;" id="sim-draw-mensual2">$8,000</div>
+    </div>
+    <div style="flex:1;min-width:150px;background:#e1f5ee;border:1px solid #b2e0ce;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#0F6E56;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Excedente → Schwab /mes</div>
+      <div style="font-size:18px;font-weight:600;color:#0F6E56;font-family:'DM Mono',monospace;" id="sim-schwab-mensual">$6,317</div>
+    </div>
+    <div style="flex:1;min-width:150px;background:#e1f5ee;border:1px solid #b2e0ce;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:11px;color:#0F6E56;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Excedente → Schwab /año</div>
+      <div style="font-size:18px;font-weight:600;color:#0F6E56;font-family:'DM Mono',monospace;" id="sim-schwab-anual">$75,800</div>
+    </div>
+  </div>
+
+  <div id="sim-warning" style="display:none;margin-top:6px;padding:10px 14px;background:#fcebeb;border-radius:8px;border-left:3px solid #E24B4A;font-size:12px;color:#A32D2D;margin-bottom:16px;">
+    <strong>⚠ Atención:</strong> El draw personal elegido excede lo disponible después de impuestos. No habría excedente para Schwab y faltaría cubrir el Tax Reserve.
+  </div>
+
+  <div style="padding:10px 14px;background:#e6f1fb;border-radius:8px;border-left:3px solid #185FA5;font-size:12px;color:#185FA5;">
+    <strong>Nota:</strong> Proyección ilustrativa basada en tasas 2026 (SE tax: SS 12.4% sobre 92.35% del ingreso neto hasta $184,500, Medicare 2.9% sin tope, +0.9% sobre $200K). Sin decreto se usa un estimado de 28% efectivo de contribución PR (graduada). Verificar cifras exactas con Emmanuel Carlo, CPA.
+  </div>
+
+  <div class="portal-footer">
+    West Capital Ventures LLC &nbsp;·&nbsp; EIN 66-1134162 &nbsp;·&nbsp; joel@westcapitalventuresllc.com
+  </div>
 </div>
+
+<script>
+function simFormatUSD(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function simCalcular() {
+  var facturacion = parseFloat(document.getElementById('sim-facturacion').value) || 0;
+  var gastos = parseFloat(document.getElementById('sim-gastos').value) || 0;
+  var conDecreto = document.getElementById('sim-decreto').checked;
+  var drawMensual = parseFloat(document.getElementById('sim-draw').value) || 0;
+
+  // Toggle visual
+  var track = document.getElementById('sim-decreto-track');
+  var knob = document.getElementById('sim-decreto-knob');
+  var label = document.getElementById('sim-decreto-label');
+  if (conDecreto) {
+    track.style.background = '#0F6E56';
+    knob.style.left = '23px';
+    label.textContent = 'Con Decreto';
+    label.style.color = '#0F6E56';
+  } else {
+    track.style.background = '#aaa';
+    knob.style.left = '3px';
+    label.textContent = 'Sin Decreto';
+    label.style.color = '#888';
+  }
+
+  var ingresoNeto = Math.max(0, facturacion - gastos);
+
+  // PR tax
+  var prTax, prSub;
+  if (conDecreto) {
+    prTax = ingresoNeto * 0.04;
+    prSub = '4% decreto';
+  } else {
+    prTax = ingresoNeto * 0.28;
+    prSub = '~28% efectivo (graduada)';
+  }
+
+  // Federal SE tax (2026)
+  var seEarnings = ingresoNeto * 0.9235;
+  var ssWageBase = 184500;
+  var ssTax = Math.min(seEarnings, ssWageBase) * 0.124;
+  var medicareTax = seEarnings * 0.029;
+  var addlMedicare = Math.max(0, seEarnings - 200000) * 0.009;
+  var seTax = ssTax + medicareTax + addlMedicare;
+
+  var totalTax = prTax + seTax;
+  var disponible = Math.max(0, ingresoNeto - totalTax);
+  var drawAnual = drawMensual * 12;
+  var surplus = disponible - drawAnual;
+  var sobregiro = surplus < 0;
+  if (sobregiro) surplus = 0;
+
+  // Update KPIs
+  document.getElementById('sim-ingreso-neto').textContent = simFormatUSD(ingresoNeto);
+  document.getElementById('sim-pr-tax').textContent = simFormatUSD(prTax);
+  document.getElementById('sim-pr-tax-sub').textContent = prSub;
+  document.getElementById('sim-se-tax').textContent = simFormatUSD(seTax);
+  document.getElementById('sim-tax-total').textContent = simFormatUSD(totalTax);
+  document.getElementById('sim-tax-pct').textContent = (ingresoNeto > 0 ? (totalTax/ingresoNeto*100).toFixed(1) : '0.0') + '% efectivo';
+
+  document.getElementById('sim-draw-display').textContent = simFormatUSD(drawMensual);
+  document.getElementById('sim-draw-mensual2').textContent = simFormatUSD(drawMensual);
+  document.getElementById('sim-tax-mensual').textContent = simFormatUSD(totalTax/12);
+  document.getElementById('sim-schwab-mensual').textContent = simFormatUSD(surplus/12);
+  document.getElementById('sim-schwab-anual').textContent = simFormatUSD(surplus);
+
+  // Waterfall bars (relative to ingresoNeto)
+  var total = ingresoNeto > 0 ? ingresoNeto : 1;
+  var pctTax = Math.min(100, totalTax/total*100);
+  var pctDraw = Math.min(100 - pctTax, drawAnual/total*100);
+  var pctSchwab = Math.max(0, 100 - pctTax - pctDraw);
+
+  document.getElementById('sim-bar-tax').style.width = pctTax + '%';
+  document.getElementById('sim-bar-draw').style.width = pctDraw + '%';
+  document.getElementById('sim-bar-schwab').style.width = pctSchwab + '%';
+
+  document.getElementById('sim-bar-tax').textContent = pctTax > 8 ? 'Tax Reserve' : '';
+  document.getElementById('sim-bar-draw').textContent = pctDraw > 8 ? 'Draw Personal' : '';
+  document.getElementById('sim-bar-schwab').textContent = pctSchwab > 8 ? 'Schwab Org' : '';
+
+  document.getElementById('sim-warning').style.display = sobregiro ? 'block' : 'none';
+}
+simCalcular();
+</script>
+</div>
+
 <div id="tab-inversiones" class="tab-content" style="display:none; background:#0a0f1e; min-height:100vh;">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
