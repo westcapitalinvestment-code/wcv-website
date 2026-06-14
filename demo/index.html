@@ -780,17 +780,71 @@ function nomAgregarAudit(icon, bg, color, nombre, desc) {
     </div>
   </div>
 
+  <!-- S-CORP COMPARATIVA (solo sin decreto) -->
+  <div id="sim-scorp-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:16px;display:none;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+      <div style="font-size:13px;font-weight:600;color:#1F3864;">Comparativa S-Corp (Form 2553)</div>
+      <span style="font-size:10px;background:#faeeda;color:#854F0B;padding:2px 8px;border-radius:10px;font-weight:600;">Solo aplica sin decreto</span>
+    </div>
+    <div style="font-size:11px;color:#888;margin-bottom:14px;">Misma LLC, misma EIN — solo cambia la elección tributaria. Ajusta el salario W-2 razonable; el resto fluye como distribución K-1 libre de SE tax.</div>
+
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+        <div style="font-size:12px;font-weight:600;color:#1F3864;">Salario W-2 razonable (anual)</div>
+        <div style="font-size:18px;font-weight:700;color:#185FA5;font-family:'DM Mono',monospace;" id="sim-salario-display">$90,000</div>
+      </div>
+      <input type="range" id="sim-salario" min="0" max="450000" step="5000" value="90000" oninput="simCalcular()" style="width:100%;accent-color:#185FA5;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:4px;">
+        <span>$0 (Conducto puro)</span>
+        <span id="sim-salario-max-label">Ingreso Neto (100% salario)</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+      <div style="flex:1;min-width:130px;background:#f9fafb;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">Distribución (K-1)</div>
+        <div style="font-size:16px;font-weight:600;color:#1F3864;font-family:'DM Mono',monospace;" id="sim-distribucion">$118,600</div>
+      </div>
+      <div style="flex:1;min-width:130px;background:#f9fafb;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">FICA sobre salario</div>
+        <div style="font-size:16px;font-weight:600;color:#854F0B;font-family:'DM Mono',monospace;" id="sim-fica-scorp">$13,770</div>
+      </div>
+      <div style="flex:1;min-width:130px;background:#f9fafb;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">SE Tax si fuera Conducto</div>
+        <div style="font-size:16px;font-weight:600;color:#aaa;font-family:'DM Mono',monospace;" id="sim-se-tax-ref">$28,465</div>
+      </div>
+      <div style="flex:1;min-width:130px;background:#d1fae5;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#166534;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;font-weight:600;">Ahorro FICA/año</div>
+        <div style="font-size:16px;font-weight:700;color:#166534;font-family:'DM Mono',monospace;" id="sim-ahorro-fica">$14,695</div>
+      </div>
+    </div>
+
+    <div id="sim-scorp-total-row" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+      <div style="flex:1;min-width:150px;background:#eff6ff;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#1e40af;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;font-weight:600;">Tax total S-Corp (PR + FICA)</div>
+        <div style="font-size:16px;font-weight:700;color:#1e40af;font-family:'DM Mono',monospace;" id="sim-scorp-total-tax">$22,309</div>
+      </div>
+      <div style="flex:1;min-width:150px;background:#f9fafb;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">Tax total Conducto (PR + SE)</div>
+        <div style="font-size:16px;font-weight:600;color:#888;font-family:'DM Mono',monospace;" id="sim-conducto-total-tax">$37,005</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:#888;line-height:1.6;">PR tributa el ingreso total igual (~28% efectivo, sea W-2 o K-1) — el ahorro viene exclusivamente del FICA federal que no aplica a la distribución K-1. El salario debe ser &#x201C;razonable&#x201D; según rol y mercado (un salario muy bajo es bandera roja para el IRS); confirmar la cifra con tu CPA.</div>
+  </div>
+
   <!-- SLIDER -->
   <div style="background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:16px;">
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+
       <div style="font-size:13px;font-weight:600;color:#1F3864;">Draw Personal Mensual</div>
       <div style="font-size:22px;font-weight:700;color:#185FA5;font-family:'DM Mono',monospace;" id="sim-draw-display">$8,000</div>
     </div>
     <input type="range" id="sim-draw" min="0" max="20000" step="500" value="8000" oninput="simCalcular()" style="width:100%;accent-color:#185FA5;">
     <div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:4px;">
-      <span>$0</span>
-      <span>$10,000</span>
-      <span>$20,000</span>
+      <span id="sim-draw-scale-min">$0</span>
+      <span id="sim-draw-scale-mid">$10,000</span>
+      <span id="sim-draw-scale-max">$20,000</span>
     </div>
   </div>
 
@@ -889,8 +943,63 @@ function simCalcular() {
   var addlMedicare = Math.max(0, seEarnings - 200000) * 0.009;
   var seTax = ssTax + medicareTax + addlMedicare;
 
-  var totalTax = prTax + seTax;
+  // --- S-CORP COMPARATIVA (solo sin decreto) ---
+  var scorpCard = document.getElementById('sim-scorp-card');
+  var totalTax = prTax + seTax; // default: Conducto (con decreto siempre es este)
+
+  if (conDecreto) {
+    scorpCard.style.display = 'none';
+  } else {
+    scorpCard.style.display = 'block';
+
+    var salarioSlider = document.getElementById('sim-salario');
+    salarioSlider.max = Math.max(1, Math.round(ingresoNeto));
+    var salario = parseFloat(salarioSlider.value) || 0;
+    if (salario > ingresoNeto) {
+      salario = ingresoNeto;
+      salarioSlider.value = salario;
+    }
+
+    var distribucion = Math.max(0, ingresoNeto - salario);
+
+    // FICA sobre salario (empleado + empleador, 2026)
+    var ficaSS = Math.min(salario, ssWageBase) * 0.124;
+    var ficaMedicare = salario * 0.029;
+    var ficaAddl = Math.max(0, salario - 200000) * 0.009;
+    var ficaScorp = ficaSS + ficaMedicare + ficaAddl;
+
+    var ahorroFica = seTax - ficaScorp;
+
+    var scorpTotalTax = prTax + ficaScorp; // PR igual (~28% del total), solo cambia FICA vs SE tax
+    var conductoTotalTax = prTax + seTax;
+
+    document.getElementById('sim-salario-display').textContent = simFormatUSD(salario);
+    document.getElementById('sim-salario-max-label').textContent = 'Ingreso Neto (' + simFormatUSD(ingresoNeto) + ' = 100% salario)';
+    document.getElementById('sim-distribucion').textContent = simFormatUSD(distribucion);
+    document.getElementById('sim-fica-scorp').textContent = simFormatUSD(ficaScorp);
+    document.getElementById('sim-se-tax-ref').textContent = simFormatUSD(seTax);
+    document.getElementById('sim-ahorro-fica').textContent = (ahorroFica >= 0 ? '+' : '') + simFormatUSD(ahorroFica);
+    document.getElementById('sim-scorp-total-tax').textContent = simFormatUSD(scorpTotalTax);
+    document.getElementById('sim-conducto-total-tax').textContent = simFormatUSD(conductoTotalTax);
+
+    // Sin decreto: el waterfall y resultados usan el total optimizado (S-Corp segun salario elegido)
+    totalTax = scorpTotalTax;
+  }
+
   var disponible = Math.max(0, ingresoNeto - totalTax);
+
+  // --- DRAW PERSONAL: escala dinamica segun ingreso neto ---
+  var drawSlider = document.getElementById('sim-draw');
+  var drawMaxMensual = Math.max(20000, Math.ceil((ingresoNeto / 12) / 1000) * 1000);
+  drawSlider.max = drawMaxMensual;
+  if (drawMensual > drawMaxMensual) {
+    drawMensual = drawMaxMensual;
+    drawSlider.value = drawMensual;
+  }
+  document.getElementById('sim-draw-scale-min').textContent = '$0';
+  document.getElementById('sim-draw-scale-mid').textContent = simFormatUSD(drawMaxMensual / 2);
+  document.getElementById('sim-draw-scale-max').textContent = simFormatUSD(drawMaxMensual);
+
   var drawAnual = drawMensual * 12;
   var surplus = disponible - drawAnual;
   var sobregiro = surplus < 0;
@@ -902,7 +1011,7 @@ function simCalcular() {
   document.getElementById('sim-pr-tax-sub').textContent = prSub;
   document.getElementById('sim-se-tax').textContent = simFormatUSD(seTax);
   document.getElementById('sim-tax-total').textContent = simFormatUSD(totalTax);
-  document.getElementById('sim-tax-pct').textContent = (ingresoNeto > 0 ? (totalTax/ingresoNeto*100).toFixed(1) : '0.0') + '% efectivo';
+  document.getElementById('sim-tax-pct').textContent = (ingresoNeto > 0 ? (totalTax/ingresoNeto*100).toFixed(1) : '0.0') + '% efectivo' + (conDecreto ? '' : ' (S-Corp optimizado)');
 
   document.getElementById('sim-draw-display').textContent = simFormatUSD(drawMensual);
   document.getElementById('sim-draw-mensual2').textContent = simFormatUSD(drawMensual);
