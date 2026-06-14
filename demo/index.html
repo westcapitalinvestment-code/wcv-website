@@ -1420,7 +1420,7 @@ simCalcular();
       <div class="ctrl">
         <span class="ctrl-label">Aportación mensual</span>
         <div class="ctrl-row">
-          <input type="range" id="monthly" min="0" max="10000" step="100" value="1000">
+          <input type="range" id="monthly" min="0" max="50000" step="250" value="1000">
           <span class="ctrl-val" id="monthly-out">$1,000</span>
         </div>
       </div>
@@ -1437,19 +1437,6 @@ simCalcular();
           <input type="range" id="years" min="5" max="40" step="1" value="20">
           <span class="ctrl-val" id="years-out">20 años</span>
         </div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="ctrl" style="margin-bottom:0;">
-      <span class="ctrl-label">Frecuencia de capitalización</span>
-      <div class="pill-row" id="freq-row">
-        <button class="pill" data-n="1">Anual</button>
-        <button class="pill" data-n="2">Semestral</button>
-        <button class="pill" data-n="4">Trimestral</button>
-        <button class="pill active" data-n="12">Mensual</button>
-        <button class="pill" data-n="365">Diaria</button>
       </div>
     </div>
   </div>
@@ -1582,7 +1569,7 @@ const profiles = {
   }
 };
 
-let n = 12;
+const n = 12; // capitalizacion mensual (fijo)
 let chart1inst, chart2inst;
 
 const fmtM = v => {
@@ -1796,14 +1783,6 @@ document.getElementById('inflation').addEventListener('input', e => {
   document.getElementById('inflation-out').textContent = parseFloat(e.target.value).toFixed(1) + '%';
   const { totalArr, Y } = calcPhase1();
   renderPhase2(totalArr[Y]);
-});
-document.getElementById('freq-row').querySelectorAll('.pill').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.getElementById('freq-row').querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    n = +btn.dataset.n;
-    renderPhase1();
-  });
 });
 
 renderPhase1();
