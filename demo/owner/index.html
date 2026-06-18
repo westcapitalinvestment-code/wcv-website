@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WCV — Owner Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #0a0e14;
+  --surface: #111720;
+  --surface2: #161e2a;
+  --border: #1e2a38;
+  --teal: #00c9a7;
+  --teal-dim: rgba(0,201,167,0.1);
+  --amber: #f5a623;
+  --red: #ff4d6d;
+  --green: #39d98a;
+  --blue: #4da6ff;
+  --purple: #a78bfa;
+  --text: #e8edf3;
+  --muted: #8b9ab0;
+  --ticker: #b0bec5;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; min-height: 100vh; }
+
+/* TOPBAR */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  background: var(--surface); position: sticky; top: 0; z-index: 200;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-dot { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; box-shadow: 0 0 10px var(--teal); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
+.brand-name { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--teal); letter-spacing: .12em; text-transform: uppercase; }
+.owner-badge { display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: rgba(0,201,167,.08); border: 1px solid rgba(0,201,167,.3); border-radius: 20px; font-size: 12px; color: var(--teal); font-weight: 600; }
+
+/* LAYOUT */
+.layout { display: flex; height: calc(100vh - 53px); }
+
+/* SIDEBAR */
+.sidebar { width: 220px; border-right: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+.sidebar-section { padding: 14px; border-bottom: 1px solid var(--border); }
+.sidebar-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 10px; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; color: var(--muted); transition: all .2s; margin-bottom: 2px; position: relative; }
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: var(--teal-dim); color: var(--teal); }
+.nav-badge { margin-left: auto; background: var(--red); color: white; border-radius: 10px; padding: 1px 6px; font-size: 9px; font-weight: 700; font-family: 'Space Mono', monospace; }
+
+/* MAIN */
+.main { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+/* KPI ROW */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: border-color .2s; }
+.kpi-card:hover { border-color: var(--teal); }
+.kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-family: 'Space Mono', monospace; margin-bottom: 8px; }
+.kpi-value { font-size: 22px; font-weight: 700; font-family: 'Space Mono', monospace; }
+.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
+/* SECTION */
+.section-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ALERTS */
+.alerts-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.alert-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .2s; }
+.alert-item:hover { border-color: var(--teal); }
+.alert-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.ai-red { background: rgba(255,77,109,.15); }
+.ai-amber { background: rgba(245,166,35,.15); }
+.ai-green { background: rgba(57,217,138,.15); }
+.ai-blue { background: rgba(77,166,255,.15); }
+.alert-content { flex: 1; }
+.alert-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.alert-detail { font-size: 11px; color: var(--muted); }
+.alert-action { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 6px; border: none; cursor: pointer; font-family: inherit; transition: all .2s; }
+.btn-red { background: rgba(255,77,109,.15); color: var(--red); border: 1px solid rgba(255,77,109,.3); }
+.btn-amber { background: rgba(245,166,35,.15); color: var(--amber); border: 1px solid rgba(245,166,35,.3); }
+.btn-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,201,167,.3); }
+.btn-green { background: rgba(57,217,138,.1); color: var(--green); border: 1px solid rgba(57,217,138,.3); }
+
+/* SEARCH BAR */
+.search-bar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+.search-input { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px; color: var(--text); font-family: inherit; font-size: 13px; outline: none; }
+.search-input:focus { border-color: var(--teal); }
+.filter-btn { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 11px; cursor: pointer; font-family: inherit; transition: all .2s; white-space: nowrap; }
+.filter-btn.active { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
+
+/* CLIENT TABLE */
+.client-table { width: 100%; border-collapse: collapse; }
+.client-table th { background: var(--surface2); color: var(--muted); font-weight: 500; padding: 8px 14px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; border-bottom: 1px solid var(--border); }
+.client-table td { padding: 11px 14px; border-bottom: 1px solid rgba(30,42,56,.4); font-size: 12px; color: var(--ticker); vertical-align: middle; }
+.client-table tr:hover td { background: rgba(255,255,255,.02); cursor: pointer; }
+.client-name-cell { display: flex; align-items: center; gap: 8px; }
+.c-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.c-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.c-sub { font-size: 10px; color: var(--muted); }
+
+/* PILLS */
+.pill { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; font-family: 'Space Mono', monospace; }
+.p-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,201,167,.25); }
+.p-amber { background: rgba(245,166,35,.1); color: var(--amber); border: 1px solid rgba(245,166,35,.25); }
+.p-red { background: rgba(255,77,109,.1); color: var(--red); border: 1px solid rgba(255,77,109,.25); }
+.p-green { background: rgba(57,217,138,.1); color: var(--green); border: 1px solid rgba(57,217,138,.25); }
+.p-blue { background: rgba(77,166,255,.1); color: var(--blue); border: 1px solid rgba(77,166,255,.25); }
+.p-purple { background: rgba(167,139,250,.1); color: var(--purple); border: 1px solid rgba(167,139,250,.25); }
+
+/* REVENUE CHART */
+.rev-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin-top: 8px; }
+.rev-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rev-bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--teal-dim); border: 1px solid rgba(0,201,167,.2); transition: background .2s; }
+.rev-bar:hover { background: rgba(0,201,167,.25); }
+.rev-bar.current { background: rgba(0,201,167,.35); border-color: var(--teal); }
+.rev-month { font-size: 9px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+/* VIEWS */
+.view { display: none; }
+.view.active { display: block; }
+
+/* VICTOR FAB */
+.victor-fab { position: fixed; bottom: 24px; right: 24px; z-index: 500; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.victor-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--bg); border: 2px solid var(--teal); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,201,167,.25); transition: all .2s; }
+.victor-btn:hover { box-shadow: 0 0 30px rgba(0,201,167,.4); transform: scale(1.05); }
+.victor-btn-inner { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; color: var(--teal); }
+.victor-panel { width: 320px; max-height: 480px; background: var(--surface); border: 1px solid var(--teal); border-radius: 14px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,.5); }
+.victor-panel.open { display: flex; }
+.victor-ph { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.v-av { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--teal); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+.v-title { font-size: 12px; font-weight: 600; color: var(--teal); font-family: 'Space Mono', monospace; }
+.v-sub { font-size: 10px; color: var(--muted); }
+.v-close { margin-left: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px; }
+.v-close:hover { color: var(--text); }
+.victor-msgs { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; max-height: 280px; }
+.msg { padding: 9px 11px; border-radius: 8px; font-size: 11px; line-height: 1.55; }
+.msg-v { background: var(--surface2); border: 1px solid var(--border); border-left: 2px solid var(--teal); color: var(--ticker); }
+.msg-u { background: var(--teal-dim); border: 1px solid rgba(0,201,167,.2); color: var(--text); align-self: flex-end; max-width: 92%; }
+.victor-inp-area { padding: 8px; border-top: 1px solid var(--border); display: flex; gap: 6px; }
+.victor-inp { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; color: var(--text); font-family: inherit; font-size: 11px; resize: none; outline: none; }
+.victor-inp:focus { border-color: var(--teal); }
+.v-send { background: var(--teal-dim); border: 1px solid var(--teal); border-radius: 6px; color: var(--teal); cursor: pointer; padding: 6px 10px; font-size: 13px; transition: all .2s; }
+.v-send:disabled { opacity: .4; cursor: not-allowed; }
+.v-send:not(:disabled):hover { background: rgba(0,201,167,.2); }
+.typing { display: flex; gap: 4px; padding: 9px 11px; background: var(--surface2); border: 1px solid var(--border); border-left: 2px solid var(--teal); border-radius: 8px; width: fit-content; }
+.typing span { width: 5px; height: 5px; background: var(--teal); border-radius: 50%; animation: bounce .9s infinite; }
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">WCV · Owner Dashboard</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)" id="clock"></span>
+    <div class="owner-badge">⚡ Joel — Owner</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Navegación</div>
+      <div class="nav-item active" onclick="setNav('overview',this)">📊 Overview</div>
+      <div class="nav-item" onclick="setNav('clientes',this)">
+        👥 Clientes
+        <span class="nav-badge" id="badge-clientes">3</span>
+      </div>
+      <div class="nav-item" onclick="setNav('alertas',this)">
+        🔔 Alertas
+        <span class="nav-badge" id="badge-alertas">4</span>
+      </div>
+      <div class="nav-item" onclick="setNav('revenue',this)">💰 Revenue WCV</div>
+      <div class="nav-item" onclick="setNav('pipeline',this)">🎯 Pipeline</div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Portales</div>
+      <div class="nav-item" onclick="window.open('/demo','_blank')">🏥 Portal Dr.</div>
+      <div class="nav-item" onclick="window.open('/demo/cpa','_blank')">📋 Portal CPA</div>
+    </div>
+    <div style="padding:12px;border-top:1px solid var(--border);margin-top:auto;text-align:center;font-size:10px;color:var(--muted);font-family:'Space Mono',monospace">WCV v8 · Owner<br>jun 2026</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- OVERVIEW -->
+    <div id="view-overview" class="view active">
+
+      <!-- KPIs -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">MRR Total</div>
+          <div class="kpi-value" style="color:var(--green)" id="kpi-mrr">$3,750</div>
+          <div class="kpi-sub" style="color:var(--green)">↑ nuevo este mes</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Clientes activos</div>
+          <div class="kpi-value" style="color:var(--teal)" id="kpi-clients">3</div>
+          <div class="kpi-sub">+1 en onboarding</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">ARR Proyectado</div>
+          <div class="kpi-value" style="color:var(--blue)" id="kpi-arr">$45,000</div>
+          <div class="kpi-sub">a 12 meses</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">QBO Rev. Share</div>
+          <div class="kpi-value" style="color:var(--amber)" id="kpi-qbo">Pendiente</div>
+          <div class="kpi-sub">Aprobación ~2 semanas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Mercury Operating</div>
+          <div class="kpi-value" style="color:var(--text)" id="kpi-mercury">••8177</div>
+          <div class="kpi-sub">$329.96 disponible</div>
+        </div>
+      </div>
+
+      <!-- ALERTS -->
+      <div class="section-label">Alertas que requieren acción</div>
+      <div class="alerts-grid">
+        <div class="alert-item">
+          <div class="alert-icon ai-red">🔴</div>
+          <div class="alert-content">
+            <div class="alert-title">Estimada Q2 SC 2225 — VIP Medical</div>
+            <div class="alert-detail">Vence HOY · Tax Reserve ••6979 tiene $3,492 disponible · Pago a Hacienda</div>
+          </div>
+          <button class="alert-action btn-red">Pagar ahora</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon ai-amber">⚠️</div>
+          <div class="alert-content">
+            <div class="alert-title">Dr. Romero — Stripe pendiente de configurar</div>
+            <div class="alert-detail">Contrato firmado $1,250/mes · Sin cobro activo todavía</div>
+          </div>
+          <button class="alert-action btn-amber">Configurar Stripe</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon ai-blue">📋</div>
+          <div class="alert-content">
+            <div class="alert-title">Reunión Emmanuel Carlo — 23 junio 1:00 PM</div>
+            <div class="alert-detail">CPA prospecto para WCV · One-pager listo · Confirmar estructura y tarifas</div>
+          </div>
+          <button class="alert-action btn-teal">Ver one-pager</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon ai-green">✅</div>
+          <div class="alert-content">
+            <div class="alert-title">QBO Revenue Share — aprobación pendiente</div>
+            <div class="alert-detail">Aplicación sometida · Micro-depósitos verificados · Hasta 2 semanas</div>
+          </div>
+          <button class="alert-action btn-green">Ver status</button>
+        </div>
+      </div>
+
+      <!-- MINI REVENUE CHART -->
+      <div class="section-label" style="margin-top:8px">Tendencia MRR — últimos 6 meses</div>
+      <div class="kpi-card" style="padding:16px 20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+          <div>
+            <div style="font-size:11px;color:var(--muted)">Crecimiento mensual</div>
+            <div style="font-size:20px;font-weight:700;color:var(--green);font-family:'Space Mono',monospace">+$3,750</div>
+          </div>
+          <span class="pill p-green">↑ En construcción</span>
+        </div>
+        <div class="rev-bars" id="rev-bars"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px" id="rev-months"></div>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div id="view-clientes" class="view">
+      <div style="margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:17px;font-weight:600">Todos los clientes</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px" id="client-count-label">3 activos · 1 onboarding · 2 prospectos</div>
+        </div>
+        <button onclick="setNav('pipeline',document.getElementById('nav-pipeline'))" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600">+ Ver pipeline</button>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" placeholder="Buscar cliente, CPA, tier..." id="search-input" oninput="filterClients()" />
+        <button class="filter-btn active" onclick="filterByStatus('all',this)">Todos</button>
+        <button class="filter-btn" onclick="filterByStatus('activo',this)">Activos</button>
+        <button class="filter-btn" onclick="filterByStatus('onboarding',this)">Onboarding</button>
+        <button class="filter-btn" onclick="filterByStatus('prospecto',this)">Prospectos</button>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <table class="client-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Tier</th>
+              <th>MRR</th>
+              <th>CPA</th>
+              <th>Status</th>
+              <th>Alerta</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="client-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALERTAS -->
+    <div id="view-alertas" class="view">
+      <div style="margin-bottom:18px">
+        <div style="font-size:17px;font-weight:600">Centro de alertas</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">4 items requieren atención hoy</div>
+      </div>
+
+      <div class="section-label">🔴 Crítico — acción hoy</div>
+      <div class="alerts-grid" style="margin-bottom:20px">
+        <div class="alert-item" style="border-color:rgba(255,77,109,.3)">
+          <div class="alert-icon ai-red">💸</div>
+          <div class="alert-content">
+            <div class="alert-title">Estimada Q2 SC 2225 — VIP Medical</div>
+            <div class="alert-detail">Hacienda PR · $1,200 estimado · Tax Reserve ••6979 tiene $3,492</div>
+          </div>
+          <button class="alert-action btn-red">Pagar</button>
+        </div>
+      </div>
+
+      <div class="section-label">🟡 Esta semana</div>
+      <div class="alerts-grid" style="margin-bottom:20px">
+        <div class="alert-item">
+          <div class="alert-icon ai-amber">💳</div>
+          <div class="alert-content">
+            <div class="alert-title">Dr. Romero — activar Stripe</div>
+            <div class="alert-detail">$1,250/mes · Contrato firmado · Sin cobro activo</div>
+          </div>
+          <button class="alert-action btn-amber">Activar</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon ai-blue">📞</div>
+          <div class="alert-content">
+            <div class="alert-title">Pana CDT — confirmar cláusulas contrato</div>
+            <div class="alert-detail">Tier 0 · Pendiente non-compete · Sin esto no se puede arrancar</div>
+          </div>
+          <button class="alert-action btn-teal">Seguimiento</button>
+        </div>
+      </div>
+
+      <div class="section-label">🟢 Próximas 2 semanas</div>
+      <div class="alerts-grid">
+        <div class="alert-item">
+          <div class="alert-icon ai-blue">🤝</div>
+          <div class="alert-content">
+            <div class="alert-title">Reunión Emmanuel Carlo CPA — 23 junio</div>
+            <div class="alert-detail">1:00 PM · Confirmar estructura, tarifa por cliente, §30201</div>
+          </div>
+          <button class="alert-action btn-teal">Ver brief</button>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon ai-green">⚙️</div>
+          <div class="alert-content">
+            <div class="alert-title">Make.com Escenario C — activar</div>
+            <div class="alert-detail">Categorización automática QBO · Pendiente desde el build del stack</div>
+          </div>
+          <button class="alert-action btn-green">Activar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVENUE -->
+    <div id="view-revenue" class="view">
+      <div style="margin-bottom:18px">
+        <div style="font-size:17px;font-weight:600">Revenue WCV</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">MRR, proyecciones y fuentes de ingreso</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px">
+        <div class="kpi-card">
+          <div class="kpi-label">MRR actual</div>
+          <div class="kpi-value" style="color:var(--green)">$3,750</div>
+          <div class="kpi-sub">3 clientes activos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Meta 12 meses</div>
+          <div class="kpi-value" style="color:var(--blue)">$15,000</div>
+          <div class="kpi-sub">~20 clientes Tier 1</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">QBO Rev. Share (est.)</div>
+          <div class="kpi-value" style="color:var(--amber)">$86/mes</div>
+          <div class="kpi-sub">30% de $57.50 × 3 clientes (pendiente aprobación)</div>
+        </div>
+      </div>
+
+      <div class="section-label">Desglose MRR por cliente</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <table class="client-table">
+          <thead><tr><th>Cliente</th><th>Tier</th><th>Mensual</th><th>Onboarding</th><th>Total año 1</th><th>Status cobro</th></tr></thead>
+          <tbody>
+            <tr><td><div class="client-name-cell"><div class="c-dot" style="background:var(--green)"></div><div><div class="c-name">VIP Medical Development</div><div class="c-sub">Interno · Conducto</div></div></div></td><td><span class="pill p-teal">Básico</span></td><td style="color:var(--green);font-weight:600">$500</td><td style="color:var(--muted)">—</td><td style="color:var(--green);font-weight:600">$6,000</td><td><span class="pill p-green">Activo</span></td></tr>
+            <tr><td><div class="client-name-cell"><div class="c-dot" style="background:var(--green)"></div><div><div class="c-name">Dr. Serrano</div><div class="c-sub">VIP Medical · Tier 1</div></div></div></td><td><span class="pill p-blue">Tier 1</span></td><td style="color:var(--green);font-weight:600">$1,500</td><td style="color:var(--muted)">—</td><td style="color:var(--green);font-weight:600">$18,000</td><td><span class="pill p-green">Activo · Stripe</span></td></tr>
+            <tr><td><div class="client-name-cell"><div class="c-dot" style="background:var(--amber)"></div><div><div class="c-name">Dr. Romero</div><div class="c-sub">Externo · Tier 1</div></div></div></td><td><span class="pill p-blue">Tier 1</span></td><td style="color:var(--amber);font-weight:600">$1,250</td><td style="color:var(--muted)">$2,000</td><td style="color:var(--amber);font-weight:600">$17,000</td><td><span class="pill p-amber">⚠ Sin Stripe</span></td></tr>
+            <tr><td><div class="client-name-cell"><div class="c-dot" style="background:var(--blue)"></div><div><div class="c-name">Dr. García CDT</div><div class="c-sub">Externo · Tier 0</div></div></div></td><td><span class="pill p-purple">Tier 0</span></td><td style="color:var(--blue);font-weight:600">$350</td><td style="color:var(--blue)">$2,000</td><td style="color:var(--blue);font-weight:600">$6,200</td><td><span class="pill p-blue">Onboarding</span></td></tr>
+            <tr style="background:rgba(0,201,167,.04)"><td colspan="2" style="font-weight:700;color:var(--text)">TOTAL</td><td style="color:var(--teal);font-weight:700;font-size:14px">$3,600/mes</td><td style="color:var(--blue);font-weight:600">$4,000</td><td style="color:var(--teal);font-weight:700;font-size:14px">$47,200 año 1</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div id="view-pipeline" class="view">
+      <div style="margin-bottom:18px">
+        <div style="font-size:17px;font-weight:600">Pipeline de prospectos</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Clientes potenciales en diferentes etapas</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <!-- SEMILLA -->
+        <div>
+          <div style="font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:6px 10px;background:var(--surface2);border-radius:6px;text-align:center">🌱 Semilla</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Dr. Romero (vecino)</div>
+              <div style="font-size:11px;color:var(--muted)">Abogado · Posible aliado Ley 60</div>
+              <div style="margin-top:8px"><span class="pill p-amber">BBQ Jul 11</span></div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Residentes Centro Médico UPR</div>
+              <div style="font-size:11px;color:var(--muted)">25 programas · 459 residentes · Julio 2027</div>
+              <div style="margin-top:8px"><span class="pill p-blue">Largo plazo</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACTADO -->
+        <div>
+          <div style="font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:6px 10px;background:var(--surface2);border-radius:6px;text-align:center">📞 Contactado</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Emmanuel Carlo, CPA</div>
+              <div style="font-size:11px;color:var(--muted)">Aliado CPA · Reunión 23 jun 1PM</div>
+              <div style="margin-top:8px"><span class="pill p-amber">23 JUN</span></div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Dr. Morales</div>
+              <div style="font-size:11px;color:var(--muted)">VIP Medical · $375→$750 pendiente</div>
+              <div style="margin-top:8px"><span class="pill p-amber">Precio pendiente</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EN NEGOCIACION -->
+        <div>
+          <div style="font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:6px 10px;background:var(--surface2);border-radius:6px;text-align:center">🤝 Negociando</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:var(--surface);border:1px solid rgba(77,166,255,.2);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Pana CDT</div>
+              <div style="font-size:11px;color:var(--muted)">Tier 0 · Pendiente revisar contrato CDT</div>
+              <div style="margin-top:8px"><span class="pill p-blue">Non-compete check</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CERRADO -->
+        <div>
+          <div style="font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:6px 10px;background:rgba(57,217,138,.08);border-radius:6px;text-align:center;border:1px solid rgba(57,217,138,.2);color:var(--green)">✅ Cerrado</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:var(--surface);border:1px solid rgba(57,217,138,.2);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Dr. Serrano</div>
+              <div style="font-size:11px;color:var(--muted)">$1,500/mes · 3 años · Jun 2026</div>
+              <div style="margin-top:8px"><span class="pill p-green">$1,500/mes</span></div>
+            </div>
+            <div style="background:var(--surface);border:1px solid rgba(57,217,138,.2);border-radius:8px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Dr. Romero</div>
+              <div style="font-size:11px;color:var(--muted)">$1,250/mes · Stripe pendiente</div>
+              <div style="margin-top:8px"><span class="pill p-amber">$1,250/mes ⚠</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<!-- VICTOR FAB -->
+<div class="victor-fab">
+  <div class="victor-panel" id="victor-panel">
+    <div class="victor-ph">
+      <div class="v-av">V</div>
+      <div><div class="v-title">VICTOR</div><div class="v-sub">Owner Mode · WCV Global</div></div>
+      <button class="v-close" onclick="toggleVictor()">✕</button>
+    </div>
+    <div class="victor-msgs" id="victor-msgs">
+      <div class="msg msg-v">Hola Joel. Tengo visibilidad de todo WCV — clientes, alertas, revenue, pipeline.<br><br>Hoy tienes la estimada Q2 de VIP Medical venciendo y el Stripe de Romero pendiente. ¿Por dónde empezamos?</div>
+    </div>
+    <div class="victor-inp-area">
+      <textarea class="victor-inp" id="victor-inp" placeholder="Pregunta sobre WCV..." rows="2" onkeydown="handleKey(event)"></textarea>
+      <button class="v-send" id="vsend" onclick="sendMsg()">↑</button>
+    </div>
+  </div>
+  <div class="victor-btn" onclick="toggleVictor()"><div class="victor-btn-inner">V</div></div>
+</div>
+
+<script>
+// Clock
+function updateClock(){ document.getElementById('clock').textContent = new Date().toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'})+' AST'; }
+updateClock(); setInterval(updateClock,1000);
+
+// Nav
+function setNav(view, el) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('view-'+view).classList.add('active');
+}
+
+// Revenue chart
+const months = ['Ene','Feb','Mar','Abr','May','Jun'];
+const values = [0, 0, 0, 500, 1500, 3750];
+const maxV = Math.max(...values, 1);
+const barsEl = document.getElementById('rev-bars');
+const monthsEl = document.getElementById('rev-months');
+values.forEach((v,i) => {
+  const wrap = document.createElement('div'); wrap.className='rev-bar-wrap';
+  const bar = document.createElement('div'); bar.className='rev-bar'+(i===values.length-1?' current':'');
+  bar.style.height = Math.max((v/maxV)*70, v>0?8:2)+'px';
+  bar.title = '$'+v.toLocaleString();
+  wrap.appendChild(bar); barsEl.appendChild(wrap);
+  const m = document.createElement('div'); m.className='rev-month'; m.textContent=months[i];
+  monthsEl.appendChild(m);
+});
+
+// Client data
+const clientData = [
+  {name:'VIP Medical Development',sub:'Interno · Conducto',dot:'var(--green)',tier:'Básico',tierClass:'p-teal',mrr:'$500',cpa:'Héctor Collazo',status:'activo',statusLabel:'Activo',statusClass:'p-green',alert:'27 txn pendientes',alertClass:'p-amber'},
+  {name:'Dr. Serrano',sub:'VIP Medical · Tier 1',dot:'var(--green)',tier:'Tier 1',tierClass:'p-blue',mrr:'$1,500',cpa:'Por confirmar',status:'activo',statusLabel:'Activo',statusClass:'p-green',alert:'Al día',alertClass:'p-teal'},
+  {name:'Dr. Romero',sub:'Externo · Tier 1',dot:'var(--amber)',tier:'Tier 1',tierClass:'p-blue',mrr:'$1,250',cpa:'Por confirmar',status:'activo',statusLabel:'Activo',statusClass:'p-green',alert:'Sin Stripe',alertClass:'p-red'},
+  {name:'Dr. García CDT',sub:'Externo · Tier 0',dot:'var(--blue)',tier:'Tier 0',tierClass:'p-purple',mrr:'$350',cpa:'Por confirmar',status:'onboarding',statusLabel:'Onboarding',statusClass:'p-blue',alert:'Non-compete check',alertClass:'p-amber'},
+  {name:'Dr. Morales',sub:'VIP Medical · prospecto',dot:'var(--muted)',tier:'—',tierClass:'',mrr:'$750 (target)',cpa:'—',status:'prospecto',statusLabel:'Prospecto',statusClass:'p-purple',alert:'Precio pendiente',alertClass:'p-amber'},
+];
+
+let currentFilter = 'all';
+function renderClients(data) {
+  const tbody = document.getElementById('client-tbody');
+  if(data.length===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px">Sin resultados</td></tr>';return;}
+  tbody.innerHTML = data.map(c=>`
+    <tr>
+      <td><div class="client-name-cell"><div class="c-dot" style="background:${c.dot}"></div><div><div class="c-name">${c.name}</div><div class="c-sub">${c.sub}</div></div></div></td>
+      <td>${c.tier?`<span class="pill ${c.tierClass}">${c.tier}</span>`:'-'}</td>
+      <td style="font-weight:600;color:var(--text)">${c.mrr}</td>
+      <td style="color:var(--muted)">${c.cpa}</td>
+      <td><span class="pill ${c.statusClass}">${c.statusLabel}</span></td>
+      <td><span class="pill ${c.alertClass}">${c.alert}</span></td>
+      <td><button style="background:none;border:1px solid var(--border);color:var(--muted);padding:3px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit" onclick="alert('Vista detallada de '+\`${c.name}\`+' próximamente')">Ver →</button></td>
+    </tr>`).join('');
+}
+
+function filterByStatus(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = status;
+  applyFilters();
+}
+
+function filterClients() { applyFilters(); }
+
+function applyFilters() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let data = clientData;
+  if(currentFilter !== 'all') data = data.filter(c=>c.status===currentFilter);
+  if(q) data = data.filter(c=>c.name.toLowerCase().includes(q)||c.cpa.toLowerCase().includes(q)||c.tier.toLowerCase().includes(q));
+  renderClients(data);
+}
+
+renderClients(clientData);
+
+// Victor
+let victorOpen = false;
+function toggleVictor() {
+  victorOpen = !victorOpen;
+  document.getElementById('victor-panel').classList.toggle('open', victorOpen);
+}
+
+function addMsg(text, isUser) {
+  const m = document.getElementById('victor-msgs');
+  const d = document.createElement('div');
+  d.className = 'msg '+(isUser?'msg-u':'msg-v');
+  d.innerHTML = text;
+  m.appendChild(d);
+  m.scrollTop = m.scrollHeight;
+}
+
+function showTyping() {
+  const m = document.getElementById('victor-msgs');
+  const d = document.createElement('div'); d.className='typing'; d.id='typing-ind';
+  d.innerHTML='<span></span><span></span><span></span>';
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+
+function removeTyping() { const t=document.getElementById('typing-ind'); if(t)t.remove(); }
+
+const OWNER_CONTEXT = `Eres VICTOR, asistente financiero de West Capital Ventures (WCV). Estás en modo Owner hablando con Joel, el fundador y CEO de TODOS sus negocios.
+
+CONTEXTO GLOBAL DE WCV:
+- Empresa: West Capital Ventures LLC, EIN 66-1134162, Puerto Rico
+- MRR actual: $3,750 (VIP Medical $500 + Dr. Serrano $1,500 + Dr. Romero $1,250)
+- Clientes activos: 3 + 1 en onboarding (Dr. García CDT Tier 0)
+- Stack: Mercury Bank, QBO Plus, Make.com, Alchavo (nómina PR), Schwab, Claude API
+- Alertas hoy: Estimada Q2 SC 2225 de VIP Medical vence HOY, Stripe de Romero pendiente
+- Reunión Emmanuel Carlo CPA: 23 junio 1PM
+- Make.com Escenario C: pendiente activar (categorización automática QBO)
+- QBO Revenue Share: aprobación pendiente ~2 semanas
+- Mercury Partner Program: email enviado, pendiente respuesta
+- Portal demo: westcapitalventuresllc.com/demo (Dr.) y /demo/cpa (CPA)
+- Developer: Julio (hizo VIP Medical website), pendiente brief técnico para conectar APIs reales
+- Pipeline: Dr. Morales pendiente ajuste precio, residentes Centro Médico UPR target julio 2027
+- Modelo: inspirado en Pilot.com pero para profesionales PR con contexto Decreto Ley 60, Hacienda, SINOT
+
+
+===== VIP MEDICAL DEVELOPMENT (cliente piloto WCV) =====
+- Empresa de billing médico · Presidente: Joel
+- 12 clientes PCP activos en PR
+- Ingresos: ~$12,442/mes (billing + HRAs)
+- Gastos operacionales: ~$5,320/mes
+- CPA: Héctor Collazo · $104/mes
+- QBO Plus activo · 27 transacciones pendientes de categorizar
+- Dr. Serrano $1,500/mes ✅ · Dr. Romero $1,250/mes ⚠ Stripe pendiente
+- Dr. Morales $375→$750 pendiente · Dr. Díaz $450→$750 pendiente
+- Derek (esposa) maneja credencialización como contratista 1099
+- Tax Reserve Mercury ••6979: $3,492 disponible · Estimada Q2 vence HOY
+
+===== INVERSIONES =====
+- Schwab cuentas ••536, ••579, ••148 · Level 2 opciones
+- Topstep funded account (pausa hasta cuenta mayor)
+- GRT en Coinbase · Acorns activo
+
+Responde en español, conciso, máximo 3-4 oraciones. Eres el copiloto de TODOS los negocios de Joel — WCV y VIP Medical.`;
+
+async function sendMsg() {
+  const inp = document.getElementById('victor-inp');
+  const btn = document.getElementById('vsend');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = ''; btn.disabled = true;
+  addMsg(text, true); showTyping();
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:OWNER_CONTEXT,messages:[{role:'user',content:text}]})
+    });
+    const d = await r.json();
+    removeTyping();
+    addMsg(d.error?'Error: '+d.error.message:d.content[0].text, false);
+  } catch(e) { removeTyping(); addMsg('Error de conexión: '+e.message, false); }
+  finally { btn.disabled = false; }
+}
+
+function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
+</script>
+</body>
+</html>
